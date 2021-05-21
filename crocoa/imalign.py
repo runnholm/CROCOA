@@ -1,10 +1,73 @@
 import numpy as np
 import pandas as pd
-import astrodrizzle as ad
+import glob
+import os
+from contextlib import contextmanager, redirect_stderr, redirect_stdout
+from drizzlepac.astrodrizzle import AstroDrizzle
+from crocoa import filemanagement as fm
+from astropy.io import fits
+from scipy.signal import correlate2d
 
 
-def align(source_images, destination_dir, drizzle_config, temp_dir='./temp', reference_image=None, cleanup=True, hlet=False):
-    pass
+def align(source_images, destination_dir, drizzle_config, temp_dir='./temp',
+          reference_image=None, cleanup=True, hlet=False, verbose=False):
+    # Step 1: make drizzle copies
+    # Create working dir
+    if not os.path.isdir(temp_dir):
+        os.mkdir(temp_dir)
+    driz_source_dir = temp_dir + '/raw_images/'
+    driz_destination_dir = temp_dir + '/drizzled_images/'
+    driz_source_files = fm.make_copy(
+        source_images, driz_source_dir, verbose=verbose)
+
+    # Step 2: drizzle
+    # TODO: generalize this to be able to take groups of files as well
+    for fd_frame in driz_source_files:
+        if verbose:
+            adriz(
+                input=[fd_frame],
+                output=driz_destination_dir +
+                os.path.basename(fd_frame).split('.')[0],
+                **drizzle_config
+            )
+        else:
+            with suppress_stdout_stderr():
+                adriz(
+                    input=[fd_frame],
+                    output=driz_destination_dir +
+                    os.path.basename(fd_frame).split('.')[0],
+                    **drizzle_config
+                )
+
+    # Step 4: Copy files to destination dir
+    if not os.path.isdir(destination_dir):
+        os.mkdir(destination_dir)
+
+    destination_files = fm.make_copy(
+        source_images, destination_dir, verbose=verbose)
+
+    # Step 3: Cross Correlate
+    corr_source_files = glob.glob(driz_destination_dir + '*sci*')
+    if reference_image is None:
+        reference_image = corr_source_files[0]
+        corr_source_files = corr_source_files[1:]
+    else:
+        ref = glob.glob(driz_destination_dir + 'reference_image')
+        if ref:
+            reference_image = ref[0]
+        else:
+            print('Cannot find reference image. Falling back to using first image')
+            reference_image = corr_source_files[0]
+            corr_source_files = corr_source_files[1:]
+
+    for frame in corr_source_files:
+        destination_file = glob.glob(
+            destination_dir + os.path.basename(frame).split['_'][0] + '*')
+        match_images(reference_image, frame, destination_file)
+
+    # Step 5: Cleanup
+    if cleanup:
+        fm.cleanup(temp_dir)
 
 
 def match_images(
@@ -150,3 +213,11 @@ def get_image_coords(header):
     """ Fetches RA and dec from a given header
     """
     return header["CRVAL1"], header["CRVAL2"]
+
+
+@contextmanager
+def suppress_stdout_stderr():
+    """A context manager that redirects stdout and stderr to devnull"""
+    with open(devnull, 'w') as fnull:
+        with redirect_stderr(fnull) as err, redirect_stdout(fnull) as out:
+            yield (err, out)

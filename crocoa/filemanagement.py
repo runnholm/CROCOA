@@ -1,8 +1,8 @@
 import glob
 import os
 import shutil
-
-def make_align_copy(source_files, destination_dir, verbose=False):
+from astropy.io import fits
+def make_copy(source_files, destination_dir, verbose=False):
     """ Function for making a clean copy
     """
     if verbose:
@@ -12,10 +12,9 @@ def make_align_copy(source_files, destination_dir, verbose=False):
     filelist = []
     for fn in source_files:
         name = os.path.basename(fn)
-        out_path = destination_dir + out_dir_name
-        if not os.path.isdir(out_path):
-            os.mkdir(out_path)
-        new_name = out_path + name
+        if not os.path.isdir(destination_dir):
+            os.mkdir(destination_dir)
+        new_name = destination_dir + name
         print("copied to")
         print(new_name)
         shutil.copyfile(fn, new_name)
@@ -23,8 +22,9 @@ def make_align_copy(source_files, destination_dir, verbose=False):
 
     return filelist
 
-def clean_align_copy(align_directory):
-    pass
+def cleanup(directory):
+    shutil.rmtree(directory)
+
 
 
 def write_wcs_to_fits(input_image, dra, ddec):
