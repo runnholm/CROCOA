@@ -1,0 +1,16 @@
+config = {
+    static=False,
+    skysub=False,
+    driz_separate=False,
+    driz_sep_wcs=False,
+    median=False,
+    blot=False,
+    driz_cr=False,
+    driz_combine=True,
+    final_rot=0,
+    final_outnx = 150,
+    final_outny = 150,
+    final_scale = 0.01,
+    final_ra = 0,
+    final_dec = 0,
+}
