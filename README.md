@@ -22,7 +22,7 @@ $ python setup.py develop
 ## Usage
 Example usage:
 
-```
+```python
 from crocoa.imalign import align
 from crocoa.drizzle_config import config
 
@@ -45,4 +45,4 @@ align(source_images, destination_dir, config)
 ```
 ## Contributions
 
-Contributions are welcome in the form of pull requests
+Contributions are welcome in the form of pull requests and issue submissions.
