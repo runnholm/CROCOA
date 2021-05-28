@@ -20,9 +20,12 @@ $ python setup.py develop
 ```
 
 ## Usage
-Example usage:
+
+### Example:
 
 ```python
+import os
+import glob
 from crocoa.imalign import align
 from crocoa.drizzle_config import config
 
@@ -43,6 +46,20 @@ os.mkdir(destination_dir)
 # Run alignment
 align(source_images, destination_dir, config)
 ```
+
+### Tips and tricks
+
+#### Image size
+The 2D correlation is very sensitive to the relative size of the target to the frame i.e. a small target in a large frame can give poor results. Therefore it can be useful to minimize the size of the frame considered while still makeing sure that the full target is contained.
+
+In cases where the alignment is very poor this can require manual correction of the coordinate system beforehand.
+
+#### Image normalization
+How the image is normalized before being run through the 2D correlation can also impact the quality of the alignment. test setting the normalization keyword to different settings.
+
+#### Always check manually
+What the title says. The system is most definitely not infallible.
+
 ## Contributions
 
 Contributions are welcome in the form of pull requests and issue submissions.
