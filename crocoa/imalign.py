@@ -3,14 +3,43 @@ import pandas as pd
 import glob
 import os
 from contextlib import contextmanager, redirect_stderr, redirect_stdout
-from drizzlepac.astrodrizzle import AstroDrizzle
+from drizzlepac.astrodrizzle import AstroDrizzle as adriz
 from crocoa import filemanagement as fm
 from astropy.io import fits
 from scipy.signal import correlate2d
 
 
-def align(source_images, destination_dir, drizzle_config, temp_dir='./temp',
-          reference_image=None, cleanup=True, hlet=False, verbose=False):
+def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
+          drizzle_groups=None,temp_dir='./temp', reference_image=None,
+          cleanup=True, normalization="white", hlet=False, verbose=False):
+    """Function for aligning two image sets
+    Parameters
+    ----------
+    source_images : list of str
+        List or array containing the images that are to be aligned
+    destination_dir : str
+        directory in which to put matched files
+    run_drizzle : bool
+        whether or not to drizzle the frames before comparing. If false the source images are assumed to be drizzled
+    drizzle_config : dict
+        dictionary with astrodrizzle configuration settings
+    drizzle_groups : list of lists
+        list containing the groupings of which frames that should be drizzled together.
+        If `None`each frame is drizzled separately.
+    temp_dir : str
+        Directory where intermediate results are stored
+    reference_image : str or None
+        sets the reference image for the correlation (full path of the image)
+    cleanup : bool, default = True
+        whether or not to remove the temp_dir
+    normalization : str
+        Parameter passed to the image_normalization function. 
+    hlet : bool
+        whether to store the new coord system as an hlet in the fits. Not implemented
+    verbose : bool
+        whether to show the output of astrodrizzle
+
+    """
     # Step 1: make drizzle copies
     # Create working dir
     if not os.path.isdir(temp_dir):
@@ -21,49 +50,57 @@ def align(source_images, destination_dir, drizzle_config, temp_dir='./temp',
         source_images, driz_source_dir, verbose=verbose)
 
     # Step 2: drizzle
-    # TODO: generalize this to be able to take groups of files as well
-    for fd_frame in driz_source_files:
-        if verbose:
-            adriz(
-                input=[fd_frame],
-                output=driz_destination_dir +
-                os.path.basename(fd_frame).split('.')[0],
-                **drizzle_config
-            )
-        else:
-            with suppress_stdout_stderr():
+    if run_drizzle:
+        # TODO: generalize this to be able to take groups of files as well
+        for fd_frame in driz_source_files:
+            if verbose:
                 adriz(
                     input=[fd_frame],
                     output=driz_destination_dir +
                     os.path.basename(fd_frame).split('.')[0],
                     **drizzle_config
                 )
+            else:
+                with suppress_stdout_stderr():
+                    adriz(
+                        input=[fd_frame],
+                        output=driz_destination_dir +
+                        os.path.basename(fd_frame).split('.')[0],
+                        **drizzle_config
+                    )
 
-    # Step 4: Copy files to destination dir
-    if not os.path.isdir(destination_dir):
-        os.mkdir(destination_dir)
+        # Step 4: Copy files to destination dir
+        if not os.path.isdir(destination_dir):
+            os.mkdir(destination_dir)
 
     destination_files = fm.make_copy(
         source_images, destination_dir, verbose=verbose)
 
     # Step 3: Cross Correlate
-    corr_source_files = glob.glob(driz_destination_dir + '*sci*')
+    if run_drizzle:
+        corr_source_files = glob.glob(driz_destination_dir + '*sci*')
+    else:
+        corr_source_files = source_images
     if reference_image is None:
         reference_image = corr_source_files[0]
         corr_source_files = corr_source_files[1:]
     else:
-        ref = glob.glob(driz_destination_dir + 'reference_image')
-        if ref:
-            reference_image = ref[0]
+        if run_drizzle:
+            ref = glob.glob(driz_destination_dir + os.path.basename(reference_image))
+            if ref:
+                reference_image = ref[0]
+            else:
+                print('Cannot find reference image. Falling back to using first image')
+                reference_image = corr_source_files[0]
+                corr_source_files = corr_source_files[1:]
         else:
-            print('Cannot find reference image. Falling back to using first image')
-            reference_image = corr_source_files[0]
-            corr_source_files = corr_source_files[1:]
+            ref = reference_image
+
 
     for frame in corr_source_files:
         destination_file = glob.glob(
             destination_dir + os.path.basename(frame).split['_'][0] + '*')
-        match_images(reference_image, frame, destination_file)
+        match_images(reference_image, frame, destination_file, normalization=normalization)
 
     # Step 5: Cleanup
     if cleanup:
