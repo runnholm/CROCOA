@@ -17,7 +17,7 @@ setup(
     author_email="axel.runnholm@astro.su.se",
     description=("Tools for doing image alignment using 2D correlation"),
     license="GNU GPLv3",
-    packages=['CROCOA'],
+    packages=['crocoa'],
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
