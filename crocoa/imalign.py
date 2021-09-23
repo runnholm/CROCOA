@@ -115,9 +115,10 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
             print()
 
     # Add the manual shift to the reference file
-    reference_destination = destination_file = glob.glob(
-            destination_dir + '/' + os.path.basename(reference_image).split('_')[0] + '*')
-    manual_wcs_shift(reference_destination, manual_shift)
+    if manual_shift is not None:
+        reference_destination = destination_file = glob.glob(
+                destination_dir + '/' + os.path.basename(reference_image).split('_')[0] + '*')
+        manual_wcs_shift(reference_destination, manual_shift)
 
     # Step 5: Cleanup
     if cleanup:
