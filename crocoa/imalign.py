@@ -46,6 +46,8 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
         os.mkdir(temp_dir)
     driz_source_dir = temp_dir + '/raw_images/'
     driz_destination_dir = temp_dir + '/drizzled_images/'
+    if not os.path.isdir(driz_destination_dir):
+        os.mkdir(driz_destination_dir)
     driz_source_files = fm.make_copy(
         source_images, driz_source_dir, verbose=verbose)
 
