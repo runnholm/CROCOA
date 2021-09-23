@@ -11,7 +11,8 @@ from scipy.signal import correlate2d
 
 def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
           drizzle_groups=None,temp_dir='./temp', reference_image=None,
-          cleanup=True, normalization="white", hlet=False, verbose=False):
+          cleanup=True, normalization="white", hlet=False,
+          manual_shift=None, verbose=False):
     """Function for aligning two image sets
     Parameters
     ----------
@@ -50,6 +51,10 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
         os.mkdir(driz_destination_dir)
     driz_source_files = fm.make_copy(
         source_images, driz_source_dir, verbose=verbose)
+    
+    if manual_shift is not None:
+        assert type(manual_shift) is dict
+        manual_wcs_shift(driz_source_files, manual_shift)
 
     # Step 2: drizzle
     if run_drizzle:
@@ -76,7 +81,7 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
             os.mkdir(destination_dir)
 
     destination_files = fm.make_copy(
-        source_images, destination_dir, verbose=verbose)
+        source_images, destination_dir + '/', verbose=verbose)
 
     # Step 3: Cross Correlate
     if run_drizzle:
@@ -101,8 +106,18 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
 
     for frame in corr_source_files:
         destination_file = glob.glob(
-            destination_dir + os.path.basename(frame).split('_')[0] + '*')
+            destination_dir + '/' + os.path.basename(frame).split('_')[0] + '*')
         match_images(reference_image, frame, destination_file, normalization=normalization)
+        if manual_shift is not None:
+            print()
+            print('manual shift')
+            manual_wcs_shift(destination_file, manual_shift)
+            print()
+
+    # Add the manual shift to the reference file
+    reference_destination = destination_file = glob.glob(
+            destination_dir + '/' + os.path.basename(reference_image).split('_')[0] + '*')
+    manual_wcs_shift(reference_destination, manual_shift)
 
     # Step 5: Cleanup
     if cleanup:
@@ -164,7 +179,20 @@ def match_images(
     for outfile in output_fits:
         if verbose:
             print("writing to: ", outfile)
-        write_wcs_to_fits(outfile, dra, ddec)
+        fm.write_wcs_to_fits(outfile, dra, ddec)
+
+
+def manual_wcs_shift(image_list, shift_dict):
+    """ Function for applying a manual alteration of the WCS 
+    Primarily for doing rough alignment before correlation analysis
+    """
+    for img in image_list:
+        visit_name = os.path.basename(img).split("_")[0]
+        if visit_name in shift_dict.keys():
+            fm.write_wcs_to_fits(
+                img, shift_dict[visit_name]["dra"], shift_dict[visit_name]["ddec"]
+            )
+            print("Applied manual correction to: ", img)
 
 
 def image_normalization(image, method="range", lower=0, higher=50):
