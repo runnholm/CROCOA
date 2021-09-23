@@ -101,7 +101,7 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
 
     for frame in corr_source_files:
         destination_file = glob.glob(
-            destination_dir + os.path.basename(frame).split['_'][0] + '*')
+            destination_dir + os.path.basename(frame).split('_')[0] + '*')
         match_images(reference_image, frame, destination_file, normalization=normalization)
 
     # Step 5: Cleanup
