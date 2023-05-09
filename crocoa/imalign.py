@@ -10,10 +10,21 @@ from scipy.signal import correlate2d
 from skimage.registration import phase_cross_correlation
 
 
-def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
-          drizzle_groups=None,temp_dir='./temp', reference_image=None,
-          cleanup=True, normalization="white", hlet=False,
-          manual_shift=None, mask_method='zeros', verbose=False):
+def align(
+    source_images,
+    destination_dir,
+    run_drizzle=True,
+    drizzle_config=None,
+    drizzle_groups=None,
+    temp_dir="./temp",
+    reference_image=None,
+    cleanup=True,
+    normalization="white",
+    hlet=False,
+    manual_shift=None,
+    mask_method="zeros",
+    verbose=False,
+):
     """Function for aligning two image sets
     Parameters
     ----------
@@ -35,9 +46,9 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
     cleanup : bool, default = True
         whether or not to remove the temp_dir
     normalization : str
-        Parameter passed to the image_normalization function. 
+        Parameter passed to the image_normalization function.
     mask_method : str
-        NaN treatment in drizzled frames, 'zero' (default) or 'skimage'. 
+        NaN treatment in drizzled frames, 'zero' (default) or 'skimage'.
     hlet : bool
         whether to store the new coord system as an hlet in the fits. Not implemented
     verbose : bool
@@ -48,13 +59,12 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
     # Create working dir
     if not os.path.isdir(temp_dir):
         os.mkdir(temp_dir)
-    driz_source_dir = temp_dir + '/raw_images/'
-    driz_destination_dir = temp_dir + '/drizzled_images/'
+    driz_source_dir = temp_dir + "/raw_images/"
+    driz_destination_dir = temp_dir + "/drizzled_images/"
     if not os.path.isdir(driz_destination_dir):
         os.mkdir(driz_destination_dir)
-    driz_source_files = fm.make_copy(
-        source_images, driz_source_dir, verbose=verbose)
-    
+    driz_source_files = fm.make_copy(source_images, driz_source_dir, verbose=verbose)
+
     if manual_shift is not None:
         assert type(manual_shift) is dict
         manual_wcs_shift(driz_source_files, manual_shift)
@@ -66,16 +76,16 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
             if verbose:
                 adriz(
                     input=[fd_frame],
-                    output=driz_destination_dir +
-                    os.path.basename(fd_frame).split('.')[0],
+                    output=driz_destination_dir
+                    + os.path.basename(fd_frame).split(".")[0],
                     **drizzle_config
                 )
             else:
                 with suppress_stdout_stderr():
                     adriz(
                         input=[fd_frame],
-                        output=driz_destination_dir +
-                        os.path.basename(fd_frame).split('.')[0],
+                        output=driz_destination_dir
+                        + os.path.basename(fd_frame).split(".")[0],
                         **drizzle_config
                     )
 
@@ -84,11 +94,12 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
             os.mkdir(destination_dir)
 
     destination_files = fm.make_copy(
-        source_images, destination_dir + '/', verbose=verbose)
+        source_images, destination_dir + "/", verbose=verbose
+    )
 
     # Step 3: Cross Correlate
     if run_drizzle:
-        corr_source_files = glob.glob(driz_destination_dir + '*sci*')
+        corr_source_files = glob.glob(driz_destination_dir + "*sci*")
     else:
         corr_source_files = source_images
     if reference_image is None:
@@ -100,29 +111,37 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
             if ref:
                 reference_image = ref[0]
             else:
-                print('Cannot find reference image. Falling back to using first image')
+                print("Cannot find reference image. Falling back to using first image")
                 reference_image = corr_source_files[0]
                 corr_source_files = corr_source_files[1:]
         else:
             ref = reference_image
 
-
     for frame in corr_source_files:
         destination_file = glob.glob(
-            destination_dir + '/' + os.path.basename(frame).split('_')[0] + '*')
-        match_images(reference_image, frame, destination_file, normalization=normalization, 
-            mask_method = mask_method
+            destination_dir + "/" + os.path.basename(frame).split("_")[0] + "*"
+        )
+        match_images(
+            reference_image,
+            frame,
+            destination_file,
+            normalization=normalization,
+            mask_method=mask_method,
         )
         if manual_shift is not None:
             print()
-            print('manual shift')
+            print("manual shift")
             manual_wcs_shift(destination_file, manual_shift)
             print()
 
     # Add the manual shift to the reference file
     if manual_shift is not None:
         reference_destination = destination_file = glob.glob(
-                destination_dir + '/' + os.path.basename(reference_image).split('_')[0] + '*')
+            destination_dir
+            + "/"
+            + os.path.basename(reference_image).split("_")[0]
+            + "*"
+        )
         manual_wcs_shift(reference_destination, manual_shift)
 
     # Step 5: Cleanup
@@ -131,10 +150,15 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
 
 
 def match_images(
-    reference_fits, image_fits, output_fits, verbose=True, normalization="white", clip=None, 
-        mask_method='zero'
+    reference_fits,
+    image_fits,
+    output_fits,
+    verbose=True,
+    normalization="white",
+    clip=None,
+    mask_method="zero",
 ):
-    """ Function that matches the coordinatesystem of image_fits
+    """Function that matches the coordinatesystem of image_fits
     to that of reference_fits by means of cross-correlation
 
     Parameters
@@ -147,8 +171,8 @@ def match_images(
         path to original flc files where wcs should be updated
     """
     if verbose:
-        print('ref', reference_fits)
-        print('shift image', image_fits)
+        print("ref", reference_fits)
+        print("shift image", image_fits)
 
     # 1. Read data
     refdata = fits.getdata(reference_fits)
@@ -159,34 +183,44 @@ def match_images(
 
     # 1.01 Check if there are nans in data and create masks in that case
     # masks are True on valid pixels
-    if (np.any(np.isnan(refdata))):
+    if np.any(np.isnan(refdata)):
         refmask = ~np.isnan(refdata)
     else:
-        refmask = np.ones(refdata.shape,dtype='bool')
-    if (np.any(np.isnan(shiftdata))):
+        refmask = np.ones(refdata.shape, dtype="bool")
+    if np.any(np.isnan(shiftdata)):
         shiftmask = ~np.isnan(shiftdata)
     else:
-        shiftmask = np.ones(shiftdata.shape,dtype='bool')
+        shiftmask = np.ones(shiftdata.shape, dtype="bool")
 
     # 1.1 Normalize data
     if clip is not None:
         shiftdata = image_normalization(
-            shiftdata, method="range", lower=0, higher=None, mask = shiftmask,
+            shiftdata,
+            method="range",
+            lower=0,
+            higher=None,
+            mask=shiftmask,
         )
         refdata = image_normalization(
-            refdata, method="range", lower=0, higher=None, mask = refmask,
+            refdata,
+            method="range",
+            lower=0,
+            higher=None,
+            mask=refmask,
         )
-    shiftdata_n = image_normalization(shiftdata, method=normalization, mask = shiftmask)
-    refdata_n = image_normalization(refdata, method=normalization, mask = refmask)
+    shiftdata_n = image_normalization(shiftdata, method=normalization, mask=shiftmask)
+    refdata_n = image_normalization(refdata, method=normalization, mask=refmask)
 
     # 2. Get cross correlation shifts
-    if ((np.any(np.isnan(refdata)) | np.any(np.isnan(shiftdata))) & (mask_method=='skimage')):
+    if (np.any(np.isnan(refdata)) | np.any(np.isnan(shiftdata))) & (
+        mask_method == "skimage"
+    ):
         # run scikit correlate to deal with masked pixels
         print("Warning: NaN pixels in input data (skimage masked correlation chosen).")
         xshift, yshift = corr2d_sk(refdata_n, shiftdata_n, refmask, shiftmask)
     else:
-        shiftdata_n = np.where(shiftmask, shiftdata_n, 0.)
-        refdata_n = np.where(refmask, refdata_n, 0.)
+        shiftdata_n = np.where(shiftmask, shiftdata_n, 0.0)
+        refdata_n = np.where(refmask, refdata_n, 0.0)
         xshift, yshift = corr2d(shiftdata_n, refdata_n)
 
     if verbose:
@@ -209,7 +243,7 @@ def match_images(
 
 
 def manual_wcs_shift(image_list, shift_dict):
-    """ Function for applying a manual alteration of the WCS 
+    """Function for applying a manual alteration of the WCS
     Primarily for doing rough alignment before correlation analysis
     """
     for img in image_list:
@@ -221,10 +255,8 @@ def manual_wcs_shift(image_list, shift_dict):
             print("Applied manual correction to: ", img)
 
 
-def image_normalization(
-    image, method="range", lower=0, higher=50, mask = 'None'
-):
-    """ Normalizes an np.array
+def image_normalization(image, method="range", lower=0, higher=50, mask=None):
+    """Normalizes an np.array
 
     Parameters
     ----------
@@ -244,10 +276,10 @@ def image_normalization(
         Default: All pixels valid. NB masked pixels are set to 0 for statistics.
     """
 
-    if (mask=='None'):
-        mask = np.ones(image.shape,dtype='bool')
+    if mask is None:
+        mask = np.ones(image.shape, dtype="bool")
 
-    image = np.where(mask,image,0.)
+    image = np.where(mask, image, 0.0)
     if method is None:
         img = image
     elif method == "white":
@@ -264,8 +296,7 @@ def image_normalization(
 
         img = np.clip(image, lower_range, higher_range)
     elif method == "percentile":
-        img = np.clip(image, np.percentile(image, lower),
-                      np.percentile(image, higher))
+        img = np.clip(image, np.percentile(image, lower), np.percentile(image, higher))
     else:
         raise ValueError
 
@@ -297,18 +328,18 @@ def corr2d(image_to_shift, refimage):
 
     return shift[1][0], shift[0][0]
 
+
 def corr2d_sk(refima, ima, mask_ref, mask_ima):
-    """ Performs (masked) cross correlation with scikit_image
-    """
+    """Performs (masked) cross correlation with scikit_image"""
     shift = phase_cross_correlation(
-            refima, ima, reference_mask=mask_ref, moving_mask = mask_ima
+        refima, ima, reference_mask=mask_ref, moving_mask=mask_ima
     )
     # shifts are given as {row, col}
     return shift[1], shift[0]
 
+
 def dpixels_to_dwcs(dx, dy, pixscale_x, pixscale_y, ref_dec):
-    """ Converts from pixel shifts to shifts in ra and declination
-    """
+    """Converts from pixel shifts to shifts in ra and declination"""
     d_dec = dy * pixscale_y
 
     d_ra = dx * pixscale_x * np.cos(np.deg2rad(ref_dec))
@@ -322,14 +353,13 @@ def get_pixel_scale(header):
 
 
 def get_image_coords(header):
-    """ Fetches RA and dec from a given header
-    """
+    """Fetches RA and dec from a given header"""
     return header["CRVAL1"], header["CRVAL2"]
 
 
 @contextmanager
 def suppress_stdout_stderr():
     """A context manager that redirects stdout and stderr to devnull"""
-    with open(os.devnull, 'w') as fnull:
+    with open(os.devnull, "w") as fnull:
         with redirect_stderr(fnull) as err, redirect_stdout(fnull) as out:
             yield (err, out)
