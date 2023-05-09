@@ -7,12 +7,13 @@ from drizzlepac.astrodrizzle import AstroDrizzle as adriz
 from crocoa import filemanagement as fm
 from astropy.io import fits
 from scipy.signal import correlate2d
+from skimage.registration import phase_cross_correlation
 
 
 def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
           drizzle_groups=None,temp_dir='./temp', reference_image=None,
           cleanup=True, normalization="white", hlet=False,
-          manual_shift=None, verbose=False):
+          manual_shift=None, mask_method='zeros', verbose=False):
     """Function for aligning two image sets
     Parameters
     ----------
@@ -35,6 +36,8 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
         whether or not to remove the temp_dir
     normalization : str
         Parameter passed to the image_normalization function. 
+    mask_method : str
+        NaN treatment in drizzled frames, 'zero' (default) or 'skimage'. 
     hlet : bool
         whether to store the new coord system as an hlet in the fits. Not implemented
     verbose : bool
@@ -107,7 +110,9 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
     for frame in corr_source_files:
         destination_file = glob.glob(
             destination_dir + '/' + os.path.basename(frame).split('_')[0] + '*')
-        match_images(reference_image, frame, destination_file, normalization=normalization)
+        match_images(reference_image, frame, destination_file, normalization=normalization, 
+            mask_method = mask_method
+        )
         if manual_shift is not None:
             print()
             print('manual shift')
@@ -126,7 +131,8 @@ def align(source_images, destination_dir, run_drizzle=True, drizzle_config=None,
 
 
 def match_images(
-    reference_fits, image_fits, output_fits, verbose=True, normalization="white", clip=None
+    reference_fits, image_fits, output_fits, verbose=True, normalization="white", clip=None, 
+        mask_method='zero'
 ):
     """ Function that matches the coordinatesystem of image_fits
     to that of reference_fits by means of cross-correlation
@@ -151,19 +157,38 @@ def match_images(
     shiftdata = fits.getdata(image_fits)
     shiftheader = fits.getheader(image_fits)
 
+    # 1.01 Check if there are nans in data and create masks in that case
+    # masks are True on valid pixels
+    if (np.any(np.isnan(refdata))):
+        refmask = ~np.isnan(refdata)
+    else:
+        refmask = np.ones(refdata.shape,dtype='bool')
+    if (np.any(np.isnan(shiftdata))):
+        shiftmask = ~np.isnan(shiftdata)
+    else:
+        shiftmask = np.ones(shiftdata.shape,dtype='bool')
+
     # 1.1 Normalize data
     if clip is not None:
         shiftdata = image_normalization(
-            shiftdata, method="range", lower=0, higher=None,
+            shiftdata, method="range", lower=0, higher=None, mask = shiftmask,
         )
         refdata = image_normalization(
-            refdata, method="range", lower=0, higher=None,
+            refdata, method="range", lower=0, higher=None, mask = refmask,
         )
-    shiftdata_n = image_normalization(shiftdata, method=normalization)
-    refdata_n = image_normalization(refdata, method=normalization)
+    shiftdata_n = image_normalization(shiftdata, method=normalization, mask = shiftmask)
+    refdata_n = image_normalization(refdata, method=normalization, mask = refmask)
 
     # 2. Get cross correlation shifts
-    xshift, yshift = corr2d(shiftdata_n, refdata_n)
+    if ((np.any(np.isnan(refdata)) | np.any(np.isnan(shiftdata))) & (mask_method=='skimage')):
+        # run scikit correlate to deal with masked pixels
+        print("Warning: NaN pixels in input data (skimage masked correlation chosen).")
+        xshift, yshift = corr2d_sk(refdata_n, shiftdata_n, refmask, shiftmask)
+    else:
+        shiftdata_n = np.where(shiftmask, shiftdata_n, 0.)
+        refdata_n = np.where(refmask, refdata_n, 0.)
+        xshift, yshift = corr2d(shiftdata_n, refdata_n)
+
     if verbose:
         print("X shift: ", xshift)
         print("Y shift: ", yshift)
@@ -196,7 +221,9 @@ def manual_wcs_shift(image_list, shift_dict):
             print("Applied manual correction to: ", img)
 
 
-def image_normalization(image, method="range", lower=0, higher=50):
+def image_normalization(
+    image, method="range", lower=0, higher=50, mask = 'None'
+):
     """ Normalizes an np.array
 
     Parameters
@@ -211,7 +238,16 @@ def image_normalization(image, method="range", lower=0, higher=50):
         white - subtract mean divide by standard deviation
 
         range - clips image data to range 0 to 100
+    mask : ndarray (boolean)
+        mask array for input image, valid pixels are True.
+
+        Default: All pixels valid. NB masked pixels are set to 0 for statistics.
     """
+
+    if (mask=='None'):
+        mask = np.ones(image.shape,dtype='bool')
+
+    image = np.where(mask,image,0.)
     if method is None:
         img = image
     elif method == "white":
@@ -261,6 +297,14 @@ def corr2d(image_to_shift, refimage):
 
     return shift[1][0], shift[0][0]
 
+def corr2d_sk(refima, ima, mask_ref, mask_ima):
+    """ Performs (masked) cross correlation with scikit_image
+    """
+    shift = phase_cross_correlation(
+            refima, ima, reference_mask=mask_ref, moving_mask = mask_ima
+    )
+    # shifts are given as {row, col}
+    return shift[1], shift[0]
 
 def dpixels_to_dwcs(dx, dy, pixscale_x, pixscale_y, ref_dec):
     """ Converts from pixel shifts to shifts in ra and declination
