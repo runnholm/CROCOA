@@ -65,7 +65,7 @@ def align(
         temp_dir = temp_dir + datetime.now().strftime("%m%d%Y_%H%M%S")
         os.mkdir(temp_dir)
         if verbose:
-            print('Warning: Previous temp-directory found. Renamin temp to: ' + temp_dir)
+            print('Warning: Previous temp-directory found. Renaming temp to: ' + temp_dir)
 
 
 
