@@ -8,7 +8,7 @@ from crocoa import filemanagement as fm
 from astropy.io import fits
 from scipy.signal import correlate2d
 from skimage.registration import phase_cross_correlation
-
+from datetime import datetime
 
 def align(
     source_images,
@@ -59,6 +59,16 @@ def align(
     # Create working dir
     if not os.path.isdir(temp_dir):
         os.mkdir(temp_dir)
+    else:
+        # here we want to deal with an already existing temp directory which
+        # can screw us over
+        temp_dir = temp_dir + datetime.now().strftime("%m%d%Y_%H%M%S")
+        os.mkdir(temp_dir)
+        if verbose:
+            print('Warning: Previous temp-directory found. Renaming temp to: ' + temp_dir)
+
+
+
     driz_source_dir = temp_dir + "/raw_images/"
     driz_destination_dir = temp_dir + "/drizzled_images/"
     if not os.path.isdir(driz_destination_dir):
