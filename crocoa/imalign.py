@@ -162,7 +162,6 @@ def align(
 def match_images(
     reference_fits,
     image_fits,
-    output_fits,
     verbose=True,
     normalization="white",
     clip=None,
@@ -245,11 +244,36 @@ def match_images(
         print("Delta RA: ", dra)
         print("Delta DEC: ", ddec)
 
-    # 4. Write new coordinates to output
-    for outfile in output_fits:
-        if verbose:
-            print("writing to: ", outfile)
-        fm.write_wcs_to_fits(outfile, dra, ddec)
+    return dra, ddec
+
+
+def align_multiple_filters(image_sets, reference_set_index=0):
+    source_images = []
+    for image_set in image_sets:
+        image_set.drizzle()
+        source_images.append(image_set.drizzled_files)
+    
+    reference_image = source_images[reference_set_index]
+    for i, image in source_images:
+        if i == reference_set_index:
+            pass
+        else:
+            dra, ddec = match_images(reference_image, image)
+            image_sets[i].backpropagate_wcs_shift(dra, ddec)
+
+
+def align_single_filter(image_set):
+    image_set.drizzle(individual=True)
+    source_images = image_set.drizzled_files
+    reference_image = source_images[0]
+    for i, image in source_images:
+        if i == 0:
+            pass
+        else:
+            dra, ddec = match_images(reference_image, image)
+            image_set.images[i].backpropagate_wcs_shift(dra, ddec)
+
+
 
 
 def manual_wcs_shift(image_list, shift_dict):

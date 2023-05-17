@@ -7,6 +7,7 @@ from drizzlepac.astrodrizzle import AstroDrizzle as adriz
 from crocoa.utilities import suppress_stdout_stderr
 import glob
 
+
 def make_copy(source_files, destination_dir, verbose=False):
     """Function for making a clean copy"""
     if verbose:
@@ -100,7 +101,7 @@ class ImageSet:
         verbose : bool
             whether to output drizzle resutls
         """
-        self.images = [Image(file_name ,verbose=verbose) for file_name in file_list]
+        self.images = [Image(file_name, verbose=verbose) for file_name in file_list]
         self.verbose = verbose
         self.drz_config = drizzle_config
         self.filtername = filtername
@@ -116,23 +117,49 @@ class ImageSet:
             image.make_working_copy(self.drz_source_dir)
             self.working_source.append(image.working_copy)
 
-    def drizzle(self):
-        if self.verbose:
-            adriz(
-                input=self.working_source,
-                output=str(self.drz_target_dir / self.filtername),
-                **self.drz_config
-            )
+    def drizzle(self, individual=False):
+        self.drizzled_files = []
+        if individual:
+            for image in self.working_source:
+                if self.verbose:
+                    adriz(
+                        input=[image],
+                        output=str(
+                            self.drz_target_dir / os.path.basename(image).split(".")[0]
+                        ),
+                        **self.drz_config
+                    )
+                else:
+                    with suppress_stdout_stderr():
+                        adriz(
+                            input=[image],
+                            output=str(
+                                self.drz_target_dir / os.path.basename(image).split(".")[0]
+                            ),
+                            **self.drz_config
+                        )
+                self.drizzled_files.append(
+                    self.drz_target_dir.glob(
+                        os.path.basename(image).split(".")[0] + "*drz*.fits"
+                    )
+                )
         else:
-            with suppress_stdout_stderr():
+            if self.verbose:
                 adriz(
                     input=self.working_source,
                     output=str(self.drz_target_dir / self.filtername),
                     **self.drz_config
                 )
-        # get the resulting drizzled file(s)
-        self.drizzled_files = self.drz_target_dir.glob('*drz*.fits')
-        
+            else:
+                with suppress_stdout_stderr():
+                    adriz(
+                        input=self.working_source,
+                        output=str(self.drz_target_dir / self.filtername),
+                        **self.drz_config
+                    )
+            # get the resulting drizzled file(s)
+            self.drizzled_files = self.drz_target_dir.glob("*drz*.fits")
+
     def backpropagate_wcs_shift(self, dra, ddec):
         for image in self.images:
             image.backpropagate_wcs(dra, ddec)
@@ -142,8 +169,4 @@ class ImageSet:
         shutil.rmtree(self.drz_target_dir)
 
 
-def align_multiple_filters(image_sets, reference_set_index=0):
-    for image_set in image_sets:
-        image_set.drizzle()
 
-def align_single_filter()
