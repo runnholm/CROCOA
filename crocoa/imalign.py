@@ -2,9 +2,9 @@ import numpy as np
 import pandas as pd
 import glob
 import os
-from contextlib import contextmanager, redirect_stderr, redirect_stdout
 from drizzlepac.astrodrizzle import AstroDrizzle as adriz
 from crocoa import filemanagement as fm
+from crocoa.utilities import suppress_stdout_stderr
 from astropy.io import fits
 from scipy.signal import correlate2d
 from skimage.registration import phase_cross_correlation
@@ -367,9 +367,3 @@ def get_image_coords(header):
     return header["CRVAL1"], header["CRVAL2"]
 
 
-@contextmanager
-def suppress_stdout_stderr():
-    """A context manager that redirects stdout and stderr to devnull"""
-    with open(os.devnull, "w") as fnull:
-        with redirect_stderr(fnull) as err, redirect_stdout(fnull) as out:
-            yield (err, out)
