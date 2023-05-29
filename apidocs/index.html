@@ -1,0 +1,1660 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.14">
+    
+    
+      
+        <title>API Docs - CROCOA</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.85bb2934.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-documentation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="CROCOA" class="md-header__button md-logo" aria-label="CROCOA" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CROCOA
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Docs
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="CROCOA" class="md-nav__button md-logo" aria-label="CROCOA" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    CROCOA
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          API Docs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        API Docs
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign" class="md-nav__link">
+    crocoa.imalign
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.align" class="md-nav__link">
+    align()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.align_multiple_filters" class="md-nav__link">
+    align_multiple_filters()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.corr2d" class="md-nav__link">
+    corr2d()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.corr2d_sk" class="md-nav__link">
+    corr2d_sk()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.dpixels_to_dwcs" class="md-nav__link">
+    dpixels_to_dwcs()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.get_image_coords" class="md-nav__link">
+    get_image_coords()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.image_normalization" class="md-nav__link">
+    image_normalization()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.manual_wcs_shift" class="md-nav__link">
+    manual_wcs_shift()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.match_images" class="md-nav__link">
+    match_images()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign" class="md-nav__link">
+    crocoa.imalign
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.align" class="md-nav__link">
+    align()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.align_multiple_filters" class="md-nav__link">
+    align_multiple_filters()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.corr2d" class="md-nav__link">
+    corr2d()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.corr2d_sk" class="md-nav__link">
+    corr2d_sk()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.dpixels_to_dwcs" class="md-nav__link">
+    dpixels_to_dwcs()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.get_image_coords" class="md-nav__link">
+    get_image_coords()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.image_normalization" class="md-nav__link">
+    image_normalization()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.manual_wcs_shift" class="md-nav__link">
+    manual_wcs_shift()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crocoa.imalign.match_images" class="md-nav__link">
+    match_images()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="api-documentation">API Documentation</h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+<a id="crocoa.imalign"></a>
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="crocoa.imalign.align" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">align</span><span class="p">(</span><span class="n">source_images</span><span class="p">,</span> <span class="n">destination_dir</span><span class="p">,</span> <span class="n">run_drizzle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">drizzle_config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">drizzle_groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">temp_dir</span><span class="o">=</span><span class="s1">&#39;./temp&#39;</span><span class="p">,</span> <span class="n">reference_image</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cleanup</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normalization</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">hlet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">manual_shift</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mask_method</span><span class="o">=</span><span class="s1">&#39;zeros&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Function for aligning two image sets</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>source_images</code></td>
+          <td>
+                <code>list of str</code>
+          </td>
+          <td><p>List or array containing the images that are to be aligned</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>destination_dir</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>directory in which to put matched files</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>run_drizzle</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td><p>whether or not to drizzle the frames before comparing. If false the source images are assumed to be drizzled</p></td>
+          <td>
+                <code>True</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>drizzle_config</code></td>
+          <td>
+                <code>dict</code>
+          </td>
+          <td><p>dictionary with astrodrizzle configuration settings</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>drizzle_groups</code></td>
+          <td>
+                <code>list of lists</code>
+          </td>
+          <td><p>list containing the groupings of which frames that should be drizzled together.
+If <code>None</code>each frame is drizzled separately.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>temp_dir</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>Directory where intermediate results are stored</p></td>
+          <td>
+                <code>&#39;./temp&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>reference_image</code></td>
+          <td>
+                <code>str or None</code>
+          </td>
+          <td><p>sets the reference image for the correlation (full path of the image)</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>cleanup</code></td>
+          <td>
+                <code>bool, default</code>
+          </td>
+          <td><p>whether or not to remove the temp_dir</p></td>
+          <td>
+                <code>True</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>normalization</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>Parameter passed to the image_normalization function.</p></td>
+          <td>
+                <code>&#39;white&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>mask_method</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>NaN treatment in drizzled frames, 'zero' (default) or 'skimage'.</p></td>
+          <td>
+                <code>&#39;zeros&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>hlet</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td><p>whether to store the new coord system as an hlet in the fits. Not implemented</p></td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>verbose</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td><p>whether to show the output of astrodrizzle</p></td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>crocoa/imalign.py</code></summary>
+        <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">align</span><span class="p">(</span>
+    <span class="n">source_images</span><span class="p">,</span>
+    <span class="n">destination_dir</span><span class="p">,</span>
+    <span class="n">run_drizzle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">drizzle_config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">drizzle_groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">temp_dir</span><span class="o">=</span><span class="s2">&quot;./temp&quot;</span><span class="p">,</span>
+    <span class="n">reference_image</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">cleanup</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">normalization</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
+    <span class="n">hlet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">manual_shift</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">mask_method</span><span class="o">=</span><span class="s2">&quot;zeros&quot;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function for aligning two image sets</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    source_images : list of str</span>
+<span class="sd">        List or array containing the images that are to be aligned</span>
+<span class="sd">    destination_dir : str</span>
+<span class="sd">        directory in which to put matched files</span>
+<span class="sd">    run_drizzle : bool</span>
+<span class="sd">        whether or not to drizzle the frames before comparing. If false the source images are assumed to be drizzled</span>
+<span class="sd">    drizzle_config : dict</span>
+<span class="sd">        dictionary with astrodrizzle configuration settings</span>
+<span class="sd">    drizzle_groups : list of lists</span>
+<span class="sd">        list containing the groupings of which frames that should be drizzled together.</span>
+<span class="sd">        If `None`each frame is drizzled separately.</span>
+<span class="sd">    temp_dir : str</span>
+<span class="sd">        Directory where intermediate results are stored</span>
+<span class="sd">    reference_image : str or None</span>
+<span class="sd">        sets the reference image for the correlation (full path of the image)</span>
+<span class="sd">    cleanup : bool, default = True</span>
+<span class="sd">        whether or not to remove the temp_dir</span>
+<span class="sd">    normalization : str</span>
+<span class="sd">        Parameter passed to the image_normalization function.</span>
+<span class="sd">    mask_method : str</span>
+<span class="sd">        NaN treatment in drizzled frames, &#39;zero&#39; (default) or &#39;skimage&#39;.</span>
+<span class="sd">    hlet : bool</span>
+<span class="sd">        whether to store the new coord system as an hlet in the fits. Not implemented</span>
+<span class="sd">    verbose : bool</span>
+<span class="sd">        whether to show the output of astrodrizzle</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Step 1: make drizzle copies</span>
+    <span class="c1"># Create working dir</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># here we want to deal with an already existing temp directory which</span>
+        <span class="c1"># can screw us over</span>
+        <span class="n">temp_dir</span> <span class="o">=</span> <span class="n">temp_dir</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m</span><span class="si">%d</span><span class="s2">%Y_%H%M%S&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning: Previous temp-directory found. Renaming temp to: &#39;</span> <span class="o">+</span> <span class="n">temp_dir</span><span class="p">)</span>
+
+
+
+    <span class="n">driz_source_dir</span> <span class="o">=</span> <span class="n">temp_dir</span> <span class="o">+</span> <span class="s2">&quot;/raw_images/&quot;</span>
+    <span class="n">driz_destination_dir</span> <span class="o">=</span> <span class="n">temp_dir</span> <span class="o">+</span> <span class="s2">&quot;/drizzled_images/&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">driz_destination_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">driz_destination_dir</span><span class="p">)</span>
+    <span class="n">driz_source_files</span> <span class="o">=</span> <span class="n">fm</span><span class="o">.</span><span class="n">make_copy</span><span class="p">(</span><span class="n">source_images</span><span class="p">,</span> <span class="n">driz_source_dir</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">manual_shift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">manual_shift</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">dict</span>
+        <span class="n">manual_wcs_shift</span><span class="p">(</span><span class="n">driz_source_files</span><span class="p">,</span> <span class="n">manual_shift</span><span class="p">)</span>
+
+    <span class="c1"># Step 2: drizzle</span>
+    <span class="k">if</span> <span class="n">run_drizzle</span><span class="p">:</span>
+        <span class="c1"># TODO: generalize this to be able to take groups of files as well</span>
+        <span class="k">for</span> <span class="n">fd_frame</span> <span class="ow">in</span> <span class="n">driz_source_files</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="n">adriz</span><span class="p">(</span>
+                    <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">fd_frame</span><span class="p">],</span>
+                    <span class="n">output</span><span class="o">=</span><span class="n">driz_destination_dir</span>
+                    <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fd_frame</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="o">**</span><span class="n">drizzle_config</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">suppress_stdout_stderr</span><span class="p">():</span>
+                    <span class="n">adriz</span><span class="p">(</span>
+                        <span class="nb">input</span><span class="o">=</span><span class="p">[</span><span class="n">fd_frame</span><span class="p">],</span>
+                        <span class="n">output</span><span class="o">=</span><span class="n">driz_destination_dir</span>
+                        <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fd_frame</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="o">**</span><span class="n">drizzle_config</span>
+                    <span class="p">)</span>
+
+        <span class="c1"># Step 4: Copy files to destination dir</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">destination_dir</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">destination_dir</span><span class="p">)</span>
+
+    <span class="n">destination_files</span> <span class="o">=</span> <span class="n">fm</span><span class="o">.</span><span class="n">make_copy</span><span class="p">(</span>
+        <span class="n">source_images</span><span class="p">,</span> <span class="n">destination_dir</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Step 3: Cross Correlate</span>
+    <span class="k">if</span> <span class="n">run_drizzle</span><span class="p">:</span>
+        <span class="n">corr_source_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">driz_destination_dir</span> <span class="o">+</span> <span class="s2">&quot;*sci*&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">corr_source_files</span> <span class="o">=</span> <span class="n">source_images</span>
+    <span class="k">if</span> <span class="n">reference_image</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">reference_image</span> <span class="o">=</span> <span class="n">corr_source_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">corr_source_files</span> <span class="o">=</span> <span class="n">corr_source_files</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">run_drizzle</span><span class="p">:</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">driz_destination_dir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">reference_image</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">ref</span><span class="p">:</span>
+                <span class="n">reference_image</span> <span class="o">=</span> <span class="n">ref</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cannot find reference image. Falling back to using first image&quot;</span><span class="p">)</span>
+                <span class="n">reference_image</span> <span class="o">=</span> <span class="n">corr_source_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">corr_source_files</span> <span class="o">=</span> <span class="n">corr_source_files</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">reference_image</span>
+
+    <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">corr_source_files</span><span class="p">:</span>
+        <span class="n">destination_file</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span>
+            <span class="n">destination_dir</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span>
+        <span class="p">)</span>
+        <span class="n">match_images</span><span class="p">(</span>
+            <span class="n">reference_image</span><span class="p">,</span>
+            <span class="n">frame</span><span class="p">,</span>
+            <span class="n">destination_file</span><span class="p">,</span>
+            <span class="n">normalization</span><span class="o">=</span><span class="n">normalization</span><span class="p">,</span>
+            <span class="n">mask_method</span><span class="o">=</span><span class="n">mask_method</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">manual_shift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;manual shift&quot;</span><span class="p">)</span>
+            <span class="n">manual_wcs_shift</span><span class="p">(</span><span class="n">destination_file</span><span class="p">,</span> <span class="n">manual_shift</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">()</span>
+
+    <span class="c1"># Add the manual shift to the reference file</span>
+    <span class="k">if</span> <span class="n">manual_shift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">reference_destination</span> <span class="o">=</span> <span class="n">destination_file</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span>
+            <span class="n">destination_dir</span>
+            <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
+            <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">reference_image</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="o">+</span> <span class="s2">&quot;*&quot;</span>
+        <span class="p">)</span>
+        <span class="n">manual_wcs_shift</span><span class="p">(</span><span class="n">reference_destination</span><span class="p">,</span> <span class="n">manual_shift</span><span class="p">)</span>
+
+    <span class="c1"># Step 5: Cleanup</span>
+    <span class="k">if</span> <span class="n">cleanup</span><span class="p">:</span>
+        <span class="n">fm</span><span class="o">.</span><span class="n">cleanup</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="crocoa.imalign.align_multiple_filters" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">align_multiple_filters</span><span class="p">(</span><span class="n">image_sets</span><span class="p">,</span> <span class="n">reference_set_index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Function for aligning image sets between multiple filters</p>
+
+      <details class="quote">
+        <summary>Source code in <code>crocoa/imalign.py</code></summary>
+        <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">align_multiple_filters</span><span class="p">(</span><span class="n">image_sets</span><span class="p">,</span> <span class="n">reference_set_index</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Function for aligning image sets between multiple filters </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">source_images</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">image_set</span> <span class="ow">in</span> <span class="n">image_sets</span><span class="p">:</span>
+        <span class="n">image_set</span><span class="o">.</span><span class="n">drizzle</span><span class="p">()</span>
+        <span class="n">source_images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image_set</span><span class="o">.</span><span class="n">drizzled_files</span><span class="p">)</span>
+
+    <span class="n">reference_image</span> <span class="o">=</span> <span class="n">source_images</span><span class="p">[</span><span class="n">reference_set_index</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">source_images</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">reference_set_index</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dra</span><span class="p">,</span> <span class="n">ddec</span> <span class="o">=</span> <span class="n">match_images</span><span class="p">(</span><span class="n">reference_image</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
+            <span class="n">image_sets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">backpropagate_wcs_shift</span><span class="p">(</span><span class="n">dra</span><span class="p">,</span> <span class="n">ddec</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="crocoa.imalign.corr2d" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">corr2d</span><span class="p">(</span><span class="n">image_to_shift</span><span class="p">,</span> <span class="n">refimage</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Function for calculating the x and y shift required for image
+<code>image_to_shift</code> to be matched to <code>refimage</code></p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>image_to_shift</code></td>
+          <td>
+                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
+          </td>
+          <td><p>image_array</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>refimage</code></td>
+          <td>
+                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
+          </td>
+          <td><p>image_array</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>x_shift</code></td>          <td>
+                <code>int</code>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+<td><code>y_shift</code></td>          <td>
+                <code>int</code>
+          </td>
+          <td></td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>crocoa/imalign.py</code></summary>
+        <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">corr2d</span><span class="p">(</span><span class="n">image_to_shift</span><span class="p">,</span> <span class="n">refimage</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function for calculating the x and y shift required for image</span>
+<span class="sd">    `image_to_shift` to be matched to `refimage`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image_to_shift : np.ndarray</span>
+<span class="sd">        image_array</span>
+<span class="sd">    refimage : np.ndarray</span>
+<span class="sd">        image_array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x_shift : int</span>
+<span class="sd">    y_shift : int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">corr</span> <span class="o">=</span> <span class="n">correlate2d</span><span class="p">(</span><span class="n">image_to_shift</span><span class="p">,</span> <span class="n">refimage</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">)</span>
+    <span class="n">shift</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">corr</span> <span class="o">==</span> <span class="n">corr</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">shift</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">shift</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="n">refimage</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">refimage</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">shift</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">%</span> <span class="n">refimage</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">refimage</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">shift</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">shift</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="crocoa.imalign.corr2d_sk" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">corr2d_sk</span><span class="p">(</span><span class="n">refima</span><span class="p">,</span> <span class="n">ima</span><span class="p">,</span> <span class="n">mask_ref</span><span class="p">,</span> <span class="n">mask_ima</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Performs (masked) cross correlation with scikit_image</p>
+
+      <details class="quote">
+        <summary>Source code in <code>crocoa/imalign.py</code></summary>
+        <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">corr2d_sk</span><span class="p">(</span><span class="n">refima</span><span class="p">,</span> <span class="n">ima</span><span class="p">,</span> <span class="n">mask_ref</span><span class="p">,</span> <span class="n">mask_ima</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Performs (masked) cross correlation with scikit_image&quot;&quot;&quot;</span>
+    <span class="n">shift</span> <span class="o">=</span> <span class="n">phase_cross_correlation</span><span class="p">(</span>
+        <span class="n">refima</span><span class="p">,</span> <span class="n">ima</span><span class="p">,</span> <span class="n">reference_mask</span><span class="o">=</span><span class="n">mask_ref</span><span class="p">,</span> <span class="n">moving_mask</span><span class="o">=</span><span class="n">mask_ima</span>
+    <span class="p">)</span>
+    <span class="c1"># shifts are given as {row, col}</span>
+    <span class="k">return</span> <span class="n">shift</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">shift</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="crocoa.imalign.dpixels_to_dwcs" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">dpixels_to_dwcs</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">pixscale_x</span><span class="p">,</span> <span class="n">pixscale_y</span><span class="p">,</span> <span class="n">ref_dec</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Converts from pixel shifts to shifts in ra and declination</p>
+
+      <details class="quote">
+        <summary>Source code in <code>crocoa/imalign.py</code></summary>
+        <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">dpixels_to_dwcs</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">pixscale_x</span><span class="p">,</span> <span class="n">pixscale_y</span><span class="p">,</span> <span class="n">ref_dec</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts from pixel shifts to shifts in ra and declination&quot;&quot;&quot;</span>
+    <span class="n">d_dec</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">*</span> <span class="n">pixscale_y</span>
+
+    <span class="n">d_ra</span> <span class="o">=</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">pixscale_x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">ref_dec</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">d_ra</span><span class="p">,</span> <span class="n">d_dec</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="crocoa.imalign.get_image_coords" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">get_image_coords</span><span class="p">(</span><span class="n">header</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Fetches RA and dec from a given header</p>
+
+      <details class="quote">
+        <summary>Source code in <code>crocoa/imalign.py</code></summary>
+        <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_image_coords</span><span class="p">(</span><span class="n">header</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fetches RA and dec from a given header&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">header</span><span class="p">[</span><span class="s2">&quot;CRVAL1&quot;</span><span class="p">],</span> <span class="n">header</span><span class="p">[</span><span class="s2">&quot;CRVAL2&quot;</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="crocoa.imalign.image_normalization" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">image_normalization</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;range&#39;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">higher</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Normalizes an np.array</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>image</code></td>
+          <td>
+                <code>ndarray</code>
+          </td>
+          <td><p>input image array</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>method</code></td>
+          <td>
+          </td>
+          <td><p>sets type of normalization. Default "white"</p>
+<p>minmax - subtract minimum value and divide by maximum</p>
+<p>white - subtract mean divide by standard deviation</p>
+<p>range - clips image data to range 0 to 100</p></td>
+          <td>
+                <code>&#34;white&#34;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>mask</code></td>
+          <td>
+                <code>ndarray(boolean)</code>
+          </td>
+          <td><p>mask array for input image, valid pixels are True.</p>
+<p>Default: All pixels valid. NB masked pixels are set to 0 for statistics.</p></td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>crocoa/imalign.py</code></summary>
+        <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">image_normalization</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">higher</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalizes an np.array</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : ndarray</span>
+<span class="sd">        input image array</span>
+<span class="sd">    method : {&quot;white&quot;, &quot;minmax&quot;, &quot;range&quot;}</span>
+<span class="sd">        sets type of normalization. Default &quot;white&quot;</span>
+
+<span class="sd">        minmax - subtract minimum value and divide by maximum</span>
+
+<span class="sd">        white - subtract mean divide by standard deviation</span>
+
+<span class="sd">        range - clips image data to range 0 to 100</span>
+<span class="sd">    mask : ndarray (boolean)</span>
+<span class="sd">        mask array for input image, valid pixels are True.</span>
+
+<span class="sd">        Default: All pixels valid. NB masked pixels are set to 0 for statistics.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;bool&quot;</span><span class="p">)</span>
+
+    <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">image</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;white&quot;</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="p">(</span><span class="n">image</span> <span class="o">-</span> <span class="n">image</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">image</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;minmax&quot;</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="p">(</span><span class="n">image</span> <span class="o">-</span> <span class="n">image</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="n">image</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;range&quot;</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">higher</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;clip_pixels&quot;</span><span class="p">:</span>
+        <span class="n">sorted_pixels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">lower_range</span> <span class="o">=</span> <span class="n">sorted_pixels</span><span class="p">[</span><span class="n">lower</span><span class="p">]</span>
+
+        <span class="n">higher_range</span> <span class="o">=</span> <span class="n">sorted_pixels</span><span class="p">[</span><span class="o">-</span><span class="n">higher</span><span class="p">]</span>
+
+        <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">lower_range</span><span class="p">,</span> <span class="n">higher_range</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;percentile&quot;</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">lower</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">higher</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span>
+
+    <span class="k">return</span> <span class="n">img</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="crocoa.imalign.manual_wcs_shift" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">manual_wcs_shift</span><span class="p">(</span><span class="n">image_list</span><span class="p">,</span> <span class="n">shift_dict</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Function for applying a manual alteration of the WCS
+Primarily for doing rough alignment before correlation analysis</p>
+
+      <details class="quote">
+        <summary>Source code in <code>crocoa/imalign.py</code></summary>
+        <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">manual_wcs_shift</span><span class="p">(</span><span class="n">image_list</span><span class="p">,</span> <span class="n">shift_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function for applying a manual alteration of the WCS</span>
+<span class="sd">    Primarily for doing rough alignment before correlation analysis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">image_list</span><span class="p">:</span>
+        <span class="n">visit_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">visit_name</span> <span class="ow">in</span> <span class="n">shift_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">fm</span><span class="o">.</span><span class="n">write_wcs_to_fits</span><span class="p">(</span>
+                <span class="n">img</span><span class="p">,</span> <span class="n">shift_dict</span><span class="p">[</span><span class="n">visit_name</span><span class="p">][</span><span class="s2">&quot;dra&quot;</span><span class="p">],</span> <span class="n">shift_dict</span><span class="p">[</span><span class="n">visit_name</span><span class="p">][</span><span class="s2">&quot;ddec&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Applied manual correction to: &quot;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="crocoa.imalign.match_images" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">match_images</span><span class="p">(</span><span class="n">reference_fits</span><span class="p">,</span> <span class="n">image_fits</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normalization</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mask_method</span><span class="o">=</span><span class="s1">&#39;zero&#39;</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Function that matches the coordinatesystem of image_fits
+to that of reference_fits by means of cross-correlation</p>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>reference_fits</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>directory of the reference image</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>image_fits</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>directory of the image that should be matched</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>output_fits</code></td>
+          <td>
+                <code>list</code>
+          </td>
+          <td><p>path to original flc files where wcs should be updated</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <details class="quote">
+        <summary>Source code in <code>crocoa/imalign.py</code></summary>
+        <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">match_images</span><span class="p">(</span>
+    <span class="n">reference_fits</span><span class="p">,</span>
+    <span class="n">image_fits</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">normalization</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span>
+    <span class="n">clip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">mask_method</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function that matches the coordinatesystem of image_fits</span>
+<span class="sd">    to that of reference_fits by means of cross-correlation</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    reference_fits : str</span>
+<span class="sd">        directory of the reference image</span>
+<span class="sd">    image_fits : str</span>
+<span class="sd">        directory of the image that should be matched</span>
+<span class="sd">    output_fits : list</span>
+<span class="sd">        path to original flc files where wcs should be updated</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ref&quot;</span><span class="p">,</span> <span class="n">reference_fits</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;shift image&quot;</span><span class="p">,</span> <span class="n">image_fits</span><span class="p">)</span>
+
+    <span class="c1"># 1. Read data</span>
+    <span class="n">refdata</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">reference_fits</span><span class="p">)</span>
+    <span class="n">refheader</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">getheader</span><span class="p">(</span><span class="n">reference_fits</span><span class="p">)</span>
+
+    <span class="n">shiftdata</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">getdata</span><span class="p">(</span><span class="n">image_fits</span><span class="p">)</span>
+    <span class="n">shiftheader</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">getheader</span><span class="p">(</span><span class="n">image_fits</span><span class="p">)</span>
+
+    <span class="c1"># 1.01 Check if there are nans in data and create masks in that case</span>
+    <span class="c1"># masks are True on valid pixels</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">refdata</span><span class="p">)):</span>
+        <span class="n">refmask</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">refdata</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">refmask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">refdata</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;bool&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">shiftdata</span><span class="p">)):</span>
+        <span class="n">shiftmask</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">shiftdata</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">shiftmask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shiftdata</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;bool&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 1.1 Normalize data</span>
+    <span class="k">if</span> <span class="n">clip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">shiftdata</span> <span class="o">=</span> <span class="n">image_normalization</span><span class="p">(</span>
+            <span class="n">shiftdata</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;range&quot;</span><span class="p">,</span>
+            <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">higher</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">mask</span><span class="o">=</span><span class="n">shiftmask</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">refdata</span> <span class="o">=</span> <span class="n">image_normalization</span><span class="p">(</span>
+            <span class="n">refdata</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;range&quot;</span><span class="p">,</span>
+            <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">higher</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">mask</span><span class="o">=</span><span class="n">refmask</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">shiftdata_n</span> <span class="o">=</span> <span class="n">image_normalization</span><span class="p">(</span><span class="n">shiftdata</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">normalization</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">shiftmask</span><span class="p">)</span>
+    <span class="n">refdata_n</span> <span class="o">=</span> <span class="n">image_normalization</span><span class="p">(</span><span class="n">refdata</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">normalization</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">refmask</span><span class="p">)</span>
+
+    <span class="c1"># 2. Get cross correlation shifts</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">refdata</span><span class="p">))</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">shiftdata</span><span class="p">)))</span> <span class="o">&amp;</span> <span class="p">(</span>
+        <span class="n">mask_method</span> <span class="o">==</span> <span class="s2">&quot;skimage&quot;</span>
+    <span class="p">):</span>
+        <span class="c1"># run scikit correlate to deal with masked pixels</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: NaN pixels in input data (skimage masked correlation chosen).&quot;</span><span class="p">)</span>
+        <span class="n">xshift</span><span class="p">,</span> <span class="n">yshift</span> <span class="o">=</span> <span class="n">corr2d_sk</span><span class="p">(</span><span class="n">refdata_n</span><span class="p">,</span> <span class="n">shiftdata_n</span><span class="p">,</span> <span class="n">refmask</span><span class="p">,</span> <span class="n">shiftmask</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">shiftdata_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">shiftmask</span><span class="p">,</span> <span class="n">shiftdata_n</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">refdata_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">refmask</span><span class="p">,</span> <span class="n">refdata_n</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">xshift</span><span class="p">,</span> <span class="n">yshift</span> <span class="o">=</span> <span class="n">corr2d</span><span class="p">(</span><span class="n">shiftdata_n</span><span class="p">,</span> <span class="n">refdata_n</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X shift: &quot;</span><span class="p">,</span> <span class="n">xshift</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Y shift: &quot;</span><span class="p">,</span> <span class="n">yshift</span><span class="p">)</span>
+
+    <span class="c1"># 3. Translate into Ra and dec</span>
+    <span class="n">xscale</span><span class="p">,</span> <span class="n">yscale</span> <span class="o">=</span> <span class="n">get_pixel_scale</span><span class="p">(</span><span class="n">shiftheader</span><span class="p">)</span>
+    <span class="n">ra</span><span class="p">,</span> <span class="n">dec</span> <span class="o">=</span> <span class="n">get_image_coords</span><span class="p">(</span><span class="n">shiftheader</span><span class="p">)</span>
+    <span class="n">dra</span><span class="p">,</span> <span class="n">ddec</span> <span class="o">=</span> <span class="n">dpixels_to_dwcs</span><span class="p">(</span><span class="n">xshift</span><span class="p">,</span> <span class="n">yshift</span><span class="p">,</span> <span class="n">xscale</span><span class="p">,</span> <span class="n">yscale</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Delta RA: &quot;</span><span class="p">,</span> <span class="n">dra</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Delta DEC: &quot;</span><span class="p">,</span> <span class="n">ddec</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dra</span><span class="p">,</span> <span class="n">ddec</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b4d07000.min.js"></script>
+      
+    
+  </body>
+</html>
