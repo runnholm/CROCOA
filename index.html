@@ -23,6 +23,9 @@
     
       <link rel="stylesheet" href="assets/stylesheets/main.85bb2934.min.css">
       
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.a6bdf11c.min.css">
+      
       
 
     
@@ -49,11 +52,14 @@
   </head>
   
   
-    <body dir="ltr">
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
-    
-      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -102,6 +108,8 @@
         </div>
       </div>
     </div>
+    
+      
     
     
     
@@ -313,6 +321,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="examples/" class="md-nav__link">
+        Examples
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -437,34 +460,32 @@
 <p>The package is tested on python 3.7</p>
 <h2 id="installation">Installation</h2>
 <p>For having an editable installation activate your preferred virtualenv and run the following in the CROCOA main directory</p>
-<div class="codehilite"><pre><span></span><code>$<span class="w"> </span>python<span class="w"> </span>setup.py<span class="w"> </span>develop
-</code></pre></div>
-
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$ python setup.py develop
+</span></code></pre></div>
 <h2 id="usage">Usage</h2>
 <h3 id="example">Example:</h3>
-<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">glob</span>
-<span class="kn">from</span> <span class="nn">crocoa.imalign</span> <span class="kn">import</span> <span class="n">align</span>
-<span class="kn">from</span> <span class="nn">crocoa.drizzle_config</span> <span class="kn">import</span> <span class="n">config</span>
-
-<span class="c1"># Review the drizzle config settings</span>
-<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">keywords</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="s1">&#39;: &#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
-
-<span class="c1"># Set the Ra and dec in the drizzle config to accurate values</span>
-<span class="n">config</span><span class="p">[</span><span class="s1">&#39;final_ra&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.12637</span>
-<span class="n">config</span><span class="p">[</span><span class="s1">&#39;final_dec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">10.19156</span>
-
-<span class="c1"># Prepare your directories</span>
-<span class="n">source_images</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;SDSSJ0004-1011/F150LP/*&quot;</span><span class="p">)</span>
-
-<span class="n">destination_dir</span> <span class="o">=</span> <span class="s2">&quot;SDSSJ0004-1011/F150LP_aligned/&quot;</span>
-<span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">destination_dir</span><span class="p">)</span>
-
-<span class="c1"># Run alignment</span>
-<span class="n">align</span><span class="p">(</span><span class="n">source_images</span><span class="p">,</span> <span class="n">destination_dir</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
-</code></pre></div>
-
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">os</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">import</span> <span class="nn">glob</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span> <span class="nn">crocoa.imalign</span> <span class="kn">import</span> <span class="n">align</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kn">from</span> <span class="nn">crocoa.drizzle_config</span> <span class="kn">import</span> <span class="n">config</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Review the drizzle config settings</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">keywords</span><span class="p">():</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="s1">&#39;: &#39;</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># Set the Ra and dec in the drizzle config to accurate values</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="n">config</span><span class="p">[</span><span class="s1">&#39;final_ra&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.12637</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">config</span><span class="p">[</span><span class="s1">&#39;final_dec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">10.19156</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1"># Prepare your directories</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="n">source_images</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;SDSSJ0004-1011/F150LP/*&quot;</span><span class="p">)</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="n">destination_dir</span> <span class="o">=</span> <span class="s2">&quot;SDSSJ0004-1011/F150LP_aligned/&quot;</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">destination_dir</span><span class="p">)</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="c1"># Run alignment</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="n">align</span><span class="p">(</span><span class="n">source_images</span><span class="p">,</span> <span class="n">destination_dir</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+</span></code></pre></div>
 <h3 id="tips-and-tricks">Tips and tricks</h3>
 <h4 id="image-size">Image size</h4>
 <p>The 2D correlation is very sensitive to the relative size of the target to the frame i.e. a small target in a large frame can give poor results. Therefore it can be useful to minimize the size of the frame considered while still makeing sure that the full target is contained.</p>
