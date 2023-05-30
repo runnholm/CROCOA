@@ -262,6 +262,7 @@ def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matc
     """
     source_images = []
     for image_set in image_sets:
+        image_set.make_driz_source()
         image_set.drizzle()
         source_images.append(image_set.drizzled_files)
     
@@ -288,6 +289,7 @@ def align_single_filter(image_set, cleanup=True, matching_config={}):
     matching_config : dict
         keyword arguments that are passed directly to match images
     """
+    image_set.make_driz_source()
     image_set.drizzle(individual=True)
     source_images = image_set.drizzled_files
     reference_image = source_images[0]
