@@ -247,8 +247,18 @@ def match_images(
     return dra, ddec
 
 
-def align_multiple_filters(image_sets, reference_set_index=0):
+def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matching_config={}):
     """ Function for aligning image sets between multiple filters 
+    Parameters
+    ----------
+    image_sets : list or iterable
+        list of ImageSet instances
+    reference_set_index : int
+        index of the ImageSet in the image_set list that is to be used as reference for cross correlation
+    cleanup : bool
+        whether to cleanup the temporary folders and intermediate drizzling results
+    matching_config : dict
+        keyword arguments that are passed directly to match images
     """
     source_images = []
     for image_set in image_sets:
@@ -260,12 +270,23 @@ def align_multiple_filters(image_sets, reference_set_index=0):
         if i == reference_set_index:
             pass
         else:
-            dra, ddec = match_images(reference_image, image)
+            dra, ddec = match_images(reference_image, image, **matching_config)
             image_sets[i].backpropagate_wcs_shift(dra, ddec)
+    if cleanup:
+        image_set.clean_temp_directories()
 
-
-def align_single_filter(image_set):
-    """
+def align_single_filter(image_set, cleanup=True, matching_config={}):
+    """ Function for aligning images in a single set
+    Parameters
+    ----------
+    image_set : ImageSet instance
+        an ImageSet instance with the relevant files to be aligned
+    reference_set_index : int
+        index of the ImageSet in the image_set list that is to be used as reference for cross correlation
+    cleanup : bool
+        whether to cleanup the temporary folders and intermediate drizzling results
+    matching_config : dict
+        keyword arguments that are passed directly to match images
     """
     image_set.drizzle(individual=True)
     source_images = image_set.drizzled_files
@@ -274,8 +295,11 @@ def align_single_filter(image_set):
         if i == 0:
             pass
         else:
-            dra, ddec = match_images(reference_image, image)
+            dra, ddec = match_images(reference_image, image, **matching_config)
             image_set.images[i].backpropagate_wcs_shift(dra, ddec)
+    
+    if cleanup:
+        image_set.clean_temp_directories()
 
 
 
