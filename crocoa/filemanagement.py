@@ -167,6 +167,12 @@ class ImageSet:
     def clean_temp_directories(self):
         shutil.rmtree(self.drz_source_dir)
         shutil.rmtree(self.drz_target_dir)
+    
+    def __repr__(self) -> str:
+        msg = "< {} ImageSet instance containing: ".format(self.filtername)
+        for img in self.images:
+            msg += img + ", "
+        return msg
 
 
 
