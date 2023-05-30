@@ -248,6 +248,8 @@ def match_images(
 
 
 def align_multiple_filters(image_sets, reference_set_index=0):
+    """ Function for aligning image sets between multiple filters 
+    """
     source_images = []
     for image_set in image_sets:
         image_set.drizzle()
@@ -263,6 +265,8 @@ def align_multiple_filters(image_sets, reference_set_index=0):
 
 
 def align_single_filter(image_set):
+    """
+    """
     image_set.drizzle(individual=True)
     source_images = image_set.drizzled_files
     reference_image = source_images[0]
