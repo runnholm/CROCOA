@@ -8,7 +8,7 @@ Software package for using 2D crosscorrelation to align astronomical images.
 ## Requirements
 The primary requirements are astropy and scipy in order to manage the fits files and 2d correlation function. Additionally drizzlepac is also used to drizzle the frames in order to account for differing pixel grids and rotation
 
-The package is tested on python 3.7
+The package is tested on python 3.7 and 3.10
 
 
 ## Installation
@@ -19,6 +19,11 @@ For having an editable installation activate your preferred virtualenv and run t
 $ python setup.py develop
 ```
 
+
+
+
+# Old examples 
+For new examples check out the examples tab. 
 ## Usage
 
 ### Example:
