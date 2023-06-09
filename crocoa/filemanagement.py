@@ -74,20 +74,33 @@ def write_wcs_to_fits(input_image, dra, ddec):
 
 class Image:
     def __init__(self, filename, verbose=False) -> None:
+        self.name = os.path.basename(filename)
         self.original = filename
         self.verbose = verbose
+        self.target_copy = None
 
     def make_working_copy(self, destination_dir):
         filelist = make_copy([self.original], destination_dir, verbose=self.verbose)
         self.working_copy = filelist[0]
 
-    def backpropagate_wcs(self, dra, ddec):
-        write_wcs_to_fits(self.original, dra, ddec)
+    def make_target_copy(self, destination_dir):
+        filelist = make_copy([self.original], destination_dir, verbose=self.verbose)
+        self.target_copy = filelist[0]
 
+    def backpropagate_wcs(self, dra, ddec):
+        if self.target_copy is not None:
+            write_wcs_to_fits(self.target_copy, dra, ddec)
+        else:
+            write_wcs_to_fits(self.original, dra, ddec)
+
+
+    def shift_working_copy_wcs(self, dra, ddec):
+        """Utility function for modifying the working copy wcs"""
+        write_wcs_to_fits(self.working_copy, dra, ddec)
 
 class ImageSet:
     def __init__(
-        self, filtername, file_list, drizzle_config, working_dir="./temp", verbose=False
+        self, filtername, file_list, drizzle_config, working_dir="./temp", destination_dir=None, manual_shifts=None, verbose=False
     ) -> None:
         """
         filtername : str
@@ -98,6 +111,12 @@ class ImageSet:
             configuration dictionary for astrodrizzle
         working_dir : str, optional
             sets the temp directory parent name
+        destination_dir : str, optional
+            This sets the directory where the resulting files with the backpropagated wcs' are put. If None this defaults 
+            to './filtername_aligned'
+        manual_shifts : dict or tuple
+            Either a dictionary mapping dra ddec shifts to individual images in the set or a tuple with a global dra and
+            ddec that should be applied to all the frames collectively
         verbose : bool
             whether to output drizzle resutls
         """
@@ -107,9 +126,33 @@ class ImageSet:
         self.filtername = filtername
         self.drz_source_dir = Path(working_dir) / "drz_source" / filtername
         self.drz_target_dir = Path(working_dir) / "drz_target" / filtername
+        self.manual_shifts = manual_shifts
 
+
+        # Set up destination files
+        self.destination_dir = destination_dir
+        if self.destination_dir is not None:
+            self.destination_dir = Path(destination_dir)
+            self.destination_dir.mkdir(parents=True)
+        else:
+            self.destination_dir = Path('./{}_aligned'.format(filter))
+            self.destination_dir.mkdir(parents=True)
+
+
+        #set up drizzle files
         self.drz_source_dir.mkdir(parents=True)
         self.drz_target_dir.mkdir(parents=True)
+
+    def make_all_copies(self):
+        self.make_target_copies()
+        self.make_driz_source()
+
+        
+
+    def make_target_copies(self):
+        for img in self.images:
+            img.make_target_copy(self.destination_dir)
+        
 
     def make_driz_source(self):
         self.working_source = []
@@ -160,7 +203,27 @@ class ImageSet:
             # get the resulting drizzled file(s)
             self.drizzled_files = self.drz_target_dir.glob("*drz*.fits")
 
+    def apply_manual_shifts(self):
+        """ Take a manual shift and apply it to either all images collectively or to each individual frame
+        """
+        # First parse to understand if we have a collective change or not
+
+        if isinstance(self.manual_shift, dict):
+            for image in self.images:
+                if image in self.manual_shifts.keys():
+                    # Add the shift to the working copy
+                    image.shift_working_copy_wcs(self.manual_shifts[image]['dra'], self.manual_shifts[image]['ddec'])
+                    # also add it to the target
+                    image.backpropagate_wcs(self.manual_shifts[image]['dra'], self.manual_shifts[image]['ddec'])
+        elif isinstance(self.manual_shift, tuple):
+            for image in self.images:
+                image.shift_working_copy_wcs(self.manual_shifts[0], self.manual_shifts[1])
+                image.backpropagate_wcs(self.manual_shifts[0], self.manual_shifts[1])
+            
+
     def backpropagate_wcs_shift(self, dra, ddec):
+        """ propagate the found wcs offset to all images
+        """
         for image in self.images:
             image.backpropagate_wcs(dra, ddec)
 
@@ -172,6 +235,7 @@ class ImageSet:
         msg = "< {} ImageSet instance containing: ".format(self.filtername)
         for img in self.images:
             msg += img + ", "
+        msg += ">"
         return msg
 
 

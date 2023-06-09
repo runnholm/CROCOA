@@ -247,7 +247,7 @@ def match_images(
     return dra, ddec
 
 
-def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matching_config={}):
+def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matching_config={}, perform_manual_shifts=True):
     """ Function for aligning image sets between multiple filters 
     Parameters
     ----------
@@ -259,10 +259,14 @@ def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matc
         whether to cleanup the temporary folders and intermediate drizzling results
     matching_config : dict
         keyword arguments that are passed directly to match images
+    manual_shifts : bool
+        whether or not to apply a manual shift. This manual shift should be given to the ImageSet 
+        during construction
     """
     source_images = []
     for image_set in image_sets:
-        image_set.make_driz_source()
+        if perform_manual_shifts:
+            image_set.apply_manual_shifts()
         image_set.drizzle()
         source_images.append(image_set.drizzled_files)
     
@@ -276,7 +280,7 @@ def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matc
     if cleanup:
         image_set.clean_temp_directories()
 
-def align_single_filter(image_set, cleanup=True, matching_config={}):
+def align_single_filter(image_set, cleanup=True, matching_config={}, perform_manual_shifts=False):
     """ Function for aligning images in a single set
     Parameters
     ----------
@@ -288,8 +292,12 @@ def align_single_filter(image_set, cleanup=True, matching_config={}):
         whether to cleanup the temporary folders and intermediate drizzling results
     matching_config : dict
         keyword arguments that are passed directly to match images
+    manual_shifts : bool
+        whether or not to apply a manual shift. This manual shift should be given to the ImageSet 
+        during construction
     """
-    image_set.make_driz_source()
+    if perform_manual_shifts:
+        image_set.apply_manual_shifts()
     image_set.drizzle(individual=True)
     source_images = image_set.drizzled_files
     reference_image = source_images[0]
