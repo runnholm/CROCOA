@@ -68,6 +68,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#potential-problems-and-suggested-solutions" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -238,10 +243,57 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Potential problems
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         Potential problems
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#window-size" class="md-nav__link">
+    Window size
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#normalization" class="md-nav__link">
+    Normalization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cr-rejection" class="md-nav__link">
+    CR Rejection
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -279,6 +331,37 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#window-size" class="md-nav__link">
+    Window size
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#normalization" class="md-nav__link">
+    Normalization
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cr-rejection" class="md-nav__link">
+    CR Rejection
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -293,9 +376,16 @@
                   
 
 
-  <h1>Potential problems</h1>
-
-
+<h1 id="potential-problems-and-suggested-solutions">Potential Problems and suggested solutions</h1>
+<p>Most problems will appear as insufficient, poor or simply incorrect corrections and unfortunately
+this can have many reasons, each of which has it's own set of solutions.</p>
+<h2 id="window-size">Window size</h2>
+<p>The 2D correlation is very sensitive to noise. This means that we want the iage size used for correlation to be as small as possible 
+while still containing the main galaxy structure. </p>
+<p>In the case of large offsets one may need to apply manual offsets in order to bring the images einto approximate alignment before 
+running the code. This is described <a href="https://runnholm.github.io/CROCOA/manual_shifts/">here</a></p>
+<h2 id="normalization">Normalization</h2>
+<h2 id="cr-rejection">CR Rejection</h2>
 
 
 
