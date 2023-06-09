@@ -27,8 +27,6 @@ def match_images(
         directory of the reference image
     image_fits : str
         directory of the image that should be matched
-    output_fits : list
-        path to original flc files where wcs should be updated
     """
     if verbose:
         print("ref", reference_fits)
@@ -110,7 +108,7 @@ def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matc
         whether to cleanup the temporary folders and intermediate drizzling results
     matching_config : dict
         keyword arguments that are passed directly to match images
-    manual_shifts : bool
+    perform_manual_shifts : bool
         whether or not to apply a manual shift. This manual shift should be given to the ImageSet 
         during construction
     """
@@ -131,19 +129,19 @@ def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matc
     if cleanup:
         image_set.clean_temp_directories()
 
-def align_single_filter(image_set, cleanup=True, matching_config={}, perform_manual_shifts=False):
+def align_single_filter(image_set, reference_image_index=0, cleanup=True, matching_config={}, perform_manual_shifts=False):
     """ Function for aligning images in a single set
     Parameters
     ----------
     image_set : ImageSet instance
         an ImageSet instance with the relevant files to be aligned
-    reference_set_index : int
-        index of the ImageSet in the image_set list that is to be used as reference for cross correlation
+    reference_image_index : int
+        index of the image in the image_set list that is to be used as reference for cross correlation
     cleanup : bool
         whether to cleanup the temporary folders and intermediate drizzling results
     matching_config : dict
         keyword arguments that are passed directly to match images
-    manual_shifts : bool
+    perform_manual_shifts : bool
         whether or not to apply a manual shift. This manual shift should be given to the ImageSet 
         during construction
     """
@@ -151,7 +149,7 @@ def align_single_filter(image_set, cleanup=True, matching_config={}, perform_man
         image_set.apply_manual_shifts()
     image_set.drizzle(individual=True)
     source_images = image_set.drizzled_files
-    reference_image = source_images[0]
+    reference_image = source_images[reference_image_index]
     for i, image in source_images:
         if i == 0:
             pass

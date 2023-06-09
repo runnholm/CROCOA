@@ -12,45 +12,19 @@ The package is tested on python 3.7 and 3.10
 
 
 ## Installation
-
+begin by cloning the code into a folder of your choice 
 For having an editable installation activate your preferred virtualenv and run the following in the CROCOA main directory
 
 ``` 
 $ python setup.py develop
 ```
 
-
-
-
-# Old examples 
-For new examples check out the examples tab. 
 ## Usage
+ 
+See the [examples page](https://runnholm.github.io/CROCOA/examples/) for concrete examples of how to use the code.
 
-### Example:
 
-```python
-import os
-import glob
-from crocoa.imalign import align
-from crocoa.drizzle_config import config
 
-# Review the drizzle config settings
-for k in config.keywords():
-    print(k, ': ', config[k])
-
-# Set the Ra and dec in the drizzle config to accurate values
-config['final_ra'] = 1.12637
-config['final_dec'] = -10.19156
-
-# Prepare your directories
-source_images = glob.glob("SDSSJ0004-1011/F150LP/*")
-
-destination_dir = "SDSSJ0004-1011/F150LP_aligned/"
-os.mkdir(destination_dir)
-
-# Run alignment
-align(source_images, destination_dir, config)
-```
 
 ### Tips and tricks
 
@@ -64,7 +38,3 @@ How the image is normalized before being run through the 2D correlation can also
 
 #### Always check manually
 What the title says. The system is most definitely not infallible.
-
-## Contributions
-
-Contributions are welcome in the form of pull requests and issue submissions.
