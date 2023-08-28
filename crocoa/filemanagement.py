@@ -104,16 +104,16 @@ class Image:
 
 class ImageSet:
     def __init__(
-        self, filtername, file_list, drizzle_config, working_dir="./temp", destination_dir=None, manual_shifts=None, verbose=False, 
+        self, file_list, filtername, drizzle_config, working_dir="./temp", destination_dir=None, manual_shifts=None, verbose=False, 
         file_suffix=None
     ) -> None:
         """
         Parameters
         ----------
-        filtername : str
-            Name of the current filter - just used to create subdirectories
         file_list : list
             list of string file names to be included in the image set
+        filtername : str
+            Name of the current filter - just used to create subdirectories
         drizzle_config : dict
             configuration dictionary for astrodrizzle
         working_dir : str, optional
