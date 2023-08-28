@@ -86,11 +86,11 @@ class Image:
         else:
             # put suffix on the right side of flt
             if 'flt' in basename:
-                self.name = basename.split("flt")[0] + file_suffix + '_flt' + basename.split(".")[1]
+                self.name = basename.split("flt")[0] + '_' + file_suffix + '_flt.' + basename.split(".")[1]
             if 'flc' in basename:
-                self.name = basename.split("flc")[0] + file_suffix + '_flc' + basename.split(".")[1]
+                self.name = basename.split("flc")[0] + '_' + file_suffix + '_flc.' + basename.split(".")[1]
             else:
-                self.name = basename.split(".")[0] + file_suffix + basename.split(".")[1]
+                self.name = basename.split(".")[0] + '_' + file_suffix + basename.split(".")[1]
         self.original = filename
         self.verbose = verbose
         self.target_copy = None
@@ -197,7 +197,7 @@ class ImageSet:
         self.working_source = []
         for image in self.images:
             image.make_working_copy(self.drz_source_dir)
-            self.working_source.append(image.working_copy)
+            self.working_source.append(str(image.working_copy))
 
     def drizzle(self, individual=False):
         """Run the drizzling process"""
