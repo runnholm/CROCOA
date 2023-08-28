@@ -32,7 +32,7 @@ One does not have to specify shifts for all of the frames in a given image set. 
 `ImageSet`during construction
 
 
-## Adding a shift to allframes in a filter
+## Adding a shift to all frames in a filter
 This is only relevant after the frames in the filter have been aligned internally but instead of giving the
 shifts for individual frame names, they are simply specified as tuple of `(dra, ddec)` given to the relevant ImageSet
 

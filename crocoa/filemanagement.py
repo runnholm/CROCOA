@@ -73,8 +73,12 @@ def write_wcs_to_fits(input_image, dra, ddec):
 
 
 class Image:
-    def __init__(self, filename, verbose=False) -> None:
-        self.name = os.path.basename(filename)
+    def __init__(self, filename, verbose=False, file_suffix=None) -> None:
+        basename = os.path.basename(filename)
+        if file_suffix is None:
+            self.name = basename
+        else: 
+            self.name = basename.split('.')[0] + file_suffix + basename.split('.')[1]
         self.original = filename
         self.verbose = verbose
         self.target_copy = None
@@ -100,9 +104,12 @@ class Image:
 
 class ImageSet:
     def __init__(
-        self, filtername, file_list, drizzle_config, working_dir="./temp", destination_dir=None, manual_shifts=None, verbose=False
+        self, filtername, file_list, drizzle_config, working_dir="./temp", destination_dir=None, manual_shifts=None, verbose=False, 
+        file_suffix=None
     ) -> None:
         """
+        Parameters
+        ----------
         filtername : str
             Name of the current filter - just used to create subdirectories
         file_list : list
@@ -119,8 +126,10 @@ class ImageSet:
             ddec that should be applied to all the frames collectively
         verbose : bool
             whether to output drizzle resutls
+        file_suffix : str, optional
+            suffix to append to the file name(s)
         """
-        self.images = [Image(file_name, verbose=verbose) for file_name in file_list]
+        self.images = [Image(file_name, verbose=verbose, file_suffix=file_suffix) for file_name in file_list]
         self.verbose = verbose
         self.drz_config = drizzle_config
         self.filtername = filtername
@@ -144,23 +153,26 @@ class ImageSet:
         self.drz_target_dir.mkdir(parents=True)
 
     def make_all_copies(self):
+        """ Create all relevant file copies"""
         self.make_target_copies()
         self.make_driz_source()
-
         
 
     def make_target_copies(self):
+        """ Make target file copies"""
         for img in self.images:
             img.make_target_copy(self.destination_dir)
         
 
     def make_driz_source(self):
+        """ Make source file copies since drizzle changes the source files it's run on"""
         self.working_source = []
         for image in self.images:
             image.make_working_copy(self.drz_source_dir)
             self.working_source.append(image.working_copy)
 
     def drizzle(self, individual=False):
+        """ Run the drizzling process"""
         self.drizzled_files = []
         if individual:
             for image in self.working_source:
@@ -207,6 +219,10 @@ class ImageSet:
         """ Take a manual shift and apply it to either all images collectively or to each individual frame
         """
         # First parse to understand if we have a collective change or not
+        if self.manual_shifts is None:
+            if self.verbose:
+                print('No manual shifts specified')
+            pass
 
         if isinstance(self.manual_shift, dict):
             for image in self.images:
@@ -228,6 +244,7 @@ class ImageSet:
             image.backpropagate_wcs(dra, ddec)
 
     def clean_temp_directories(self):
+        """ Remove drizzling directories"""
         shutil.rmtree(self.drz_source_dir)
         shutil.rmtree(self.drz_target_dir)
     

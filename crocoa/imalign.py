@@ -129,7 +129,7 @@ def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matc
     if cleanup:
         image_set.clean_temp_directories()
 
-def align_single_filter(image_set, reference_image_index=0, cleanup=True, matching_config={}, perform_manual_shifts=False):
+def align_single_filter(image_set, reference_image_index=0, cleanup=True, matching_config={}, perform_manual_shifts=True):
     """ Function for aligning images in a single set
     Parameters
     ----------
