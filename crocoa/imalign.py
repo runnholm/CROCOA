@@ -152,7 +152,7 @@ def align_single_filter(image_set, reference_image_index=0, cleanup=True, matchi
     image_set.drizzle(individual=True)
     source_images = image_set.drizzled_files
     reference_image = source_images[reference_image_index]
-    for i, image in source_images:
+    for i, image in enumerate(source_images):
         if i == 0:
             pass
         else:
