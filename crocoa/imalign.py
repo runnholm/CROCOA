@@ -114,6 +114,7 @@ def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matc
     """
     source_images = []
     for image_set in image_sets:
+        image_set.make_all_copies()
         if perform_manual_shifts:
             image_set.apply_manual_shifts()
         image_set.drizzle()
@@ -145,6 +146,7 @@ def align_single_filter(image_set, reference_image_index=0, cleanup=True, matchi
         whether or not to apply a manual shift. This manual shift should be given to the ImageSet 
         during construction
     """
+    image_set.make_all_copies()
     if perform_manual_shifts:
         image_set.apply_manual_shifts()
     image_set.drizzle(individual=True)
