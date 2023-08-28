@@ -27,7 +27,7 @@ from pathlib import Path
 
 source_dir = Path('path/to/flts')
 flt_frames = list(source_dir.glob('*.flt'))
-img_set = ImageSet(flt_frames, filter_name="F150LP", drizzle_config=config)
+img_set = ImageSet(flt_frames, filtername="F150LP", drizzle_config=config)
 ```
 
 Use the align filter function to align the images in the `ImageSet`
@@ -60,12 +60,12 @@ config['final_dec'] = -10.19156
 # Filter 1
 source_dir = Path('path/to/filter1/flts')
 flt_frames = list(source_dir.glob('*.flt'))
-img_set1 = ImageSet(flt_frames, filter_name="filter1", drizzle_config=config)
+img_set1 = ImageSet(flt_frames, filtername="filter1", drizzle_config=config)
 
 # Filter 2
 source_dir = Path('path/to/filter2/flts')
 flt_frames = list(source_dir.glob('*.flt'))
-img_set2 = ImageSet(flt_frames, filter_name="filter2", drizzle_config=config)
+img_set2 = ImageSet(flt_frames, filtername="filter2", drizzle_config=config)
 
 img_sets = [img_set1, img_set2]
 
