@@ -157,7 +157,7 @@ def align_single_filter(image_set, reference_image_index=0, cleanup=True, matchi
             pass
         else:
             dra, ddec = match_images(reference_image, image, **matching_config)
-            image_set.images[i].backpropagate_wcs_shift(dra, ddec)
+            image_set.images[i].backpropagate_wcs(dra, ddec)
     
     if cleanup:
         image_set.clean_temp_directories()
