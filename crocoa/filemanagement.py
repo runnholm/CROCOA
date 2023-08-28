@@ -224,14 +224,14 @@ class ImageSet:
                 print('No manual shifts specified')
             pass
 
-        if isinstance(self.manual_shift, dict):
+        if isinstance(self.manual_shifts, dict):
             for image in self.images:
                 if image in self.manual_shifts.keys():
                     # Add the shift to the working copy
                     image.shift_working_copy_wcs(self.manual_shifts[image]['dra'], self.manual_shifts[image]['ddec'])
                     # also add it to the target
                     image.backpropagate_wcs(self.manual_shifts[image]['dra'], self.manual_shifts[image]['ddec'])
-        elif isinstance(self.manual_shift, tuple):
+        elif isinstance(self.manual_shifts, tuple):
             for image in self.images:
                 image.shift_working_copy_wcs(self.manual_shifts[0], self.manual_shifts[1])
                 image.backpropagate_wcs(self.manual_shifts[0], self.manual_shifts[1])
