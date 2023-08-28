@@ -223,9 +223,9 @@ class ImageSet:
                             **self.drz_config
                         )
                 self.drizzled_files.append(
-                    self.drz_target_dir.glob(
+                    list(self.drz_target_dir.glob(
                         os.path.basename(image).split(".")[0] + "*.fits"
-                    )
+                    ))[0]
                 )
         else:
             if self.verbose:
@@ -242,7 +242,7 @@ class ImageSet:
                         **self.drz_config
                     )
             # get the resulting drizzled file(s)
-            self.drizzled_files = self.drz_target_dir.glob("*.fits")
+            self.drizzled_files = list(self.drz_target_dir.glob("*.fits"))
 
     def apply_manual_shifts(self):
         """Take a manual shift and apply it to either all images collectively or to each individual frame"""
