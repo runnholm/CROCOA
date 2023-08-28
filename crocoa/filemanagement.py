@@ -142,15 +142,15 @@ class ImageSet:
         self.destination_dir = destination_dir
         if self.destination_dir is not None:
             self.destination_dir = Path(destination_dir)
-            self.destination_dir.mkdir(parents=True)
+            self.destination_dir.mkdir(parents=True, exist_ok=True)
         else:
             self.destination_dir = Path('./{}_aligned'.format(filter))
-            self.destination_dir.mkdir(parents=True)
+            self.destination_dir.mkdir(parents=True, exist_ok=True)
 
 
         #set up drizzle files
-        self.drz_source_dir.mkdir(parents=True)
-        self.drz_target_dir.mkdir(parents=True)
+        self.drz_source_dir.mkdir(parents=True, exist_ok=True)
+        self.drz_target_dir.mkdir(parents=True, exist_ok=True)
 
     def make_all_copies(self):
         """ Create all relevant file copies"""
