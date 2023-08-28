@@ -8,7 +8,7 @@ from crocoa.utilities import suppress_stdout_stderr
 import glob
 
 
-def make_copy(source_files, destination_dir, verbose=False):
+def make_copy(source_files, destination_dir, target_name=None, verbose=False):
     """Function for making a clean copy"""
     if verbose:
         print("Copying", source_files)
@@ -16,7 +16,10 @@ def make_copy(source_files, destination_dir, verbose=False):
 
     filelist = []
     for fn in source_files:
-        name = os.path.basename(fn)
+        if target_name is None:
+            name = os.path.basename(fn)
+        else:
+            name = target_name
         if not os.path.isdir(destination_dir):
             os.mkdir(destination_dir)
         if isinstance(destination_dir, Path):
@@ -80,18 +83,28 @@ class Image:
         basename = os.path.basename(filename)
         if file_suffix is None:
             self.name = basename
-        else: 
-            self.name = basename.split('.')[0] + file_suffix + basename.split('.')[1]
+        else:
+            self.name = basename.split(".")[0] + file_suffix + basename.split(".")[1]
         self.original = filename
         self.verbose = verbose
         self.target_copy = None
 
     def make_working_copy(self, destination_dir):
-        filelist = make_copy([self.original], destination_dir, verbose=self.verbose)
+        filelist = make_copy(
+            [self.original],
+            destination_dir,
+            target_name=self.name,
+            verbose=self.verbose,
+        )
         self.working_copy = filelist[0]
 
     def make_target_copy(self, destination_dir):
-        filelist = make_copy([self.original], destination_dir, verbose=self.verbose)
+        filelist = make_copy(
+            [self.original],
+            destination_dir,
+            target_name=self.name,
+            verbose=self.verbose,
+        )
         self.target_copy = filelist[0]
 
     def backpropagate_wcs(self, dra, ddec):
@@ -100,15 +113,22 @@ class Image:
         else:
             write_wcs_to_fits(self.original, dra, ddec)
 
-
     def shift_working_copy_wcs(self, dra, ddec):
         """Utility function for modifying the working copy wcs"""
         write_wcs_to_fits(self.working_copy, dra, ddec)
 
+
 class ImageSet:
     def __init__(
-        self, file_list, filtername, drizzle_config, working_dir="./temp", destination_dir=None, manual_shifts=None, verbose=False, 
-        file_suffix=None
+        self,
+        file_list,
+        filtername,
+        drizzle_config,
+        working_dir="./temp",
+        destination_dir=None,
+        manual_shifts=None,
+        verbose=False,
+        file_suffix=None,
     ) -> None:
         """
         Parameters
@@ -122,7 +142,7 @@ class ImageSet:
         working_dir : str, optional
             sets the temp directory parent name
         destination_dir : str, optional
-            This sets the directory where the resulting files with the backpropagated wcs' are put. If None this defaults 
+            This sets the directory where the resulting files with the backpropagated wcs' are put. If None this defaults
             to './filtername_aligned'
         manual_shifts : dict or tuple
             Either a dictionary mapping dra ddec shifts to individual images in the set or a tuple with a global dra and
@@ -132,7 +152,10 @@ class ImageSet:
         file_suffix : str, optional
             suffix to append to the file name(s)
         """
-        self.images = [Image(file_name, verbose=verbose, file_suffix=file_suffix) for file_name in file_list]
+        self.images = [
+            Image(file_name, verbose=verbose, file_suffix=file_suffix)
+            for file_name in file_list
+        ]
         self.verbose = verbose
         self.drz_config = drizzle_config
         self.filtername = filtername
@@ -140,42 +163,38 @@ class ImageSet:
         self.drz_target_dir = Path(working_dir) / "drz_target" / filtername
         self.manual_shifts = manual_shifts
 
-
         # Set up destination files
         self.destination_dir = destination_dir
         if self.destination_dir is not None:
             self.destination_dir = Path(destination_dir)
             self.destination_dir.mkdir(parents=True, exist_ok=True)
         else:
-            self.destination_dir = Path('./{}_aligned'.format(filter))
+            self.destination_dir = Path("./{}_aligned".format(filter))
             self.destination_dir.mkdir(parents=True, exist_ok=True)
 
-
-        #set up drizzle files
+        # set up drizzle files
         self.drz_source_dir.mkdir(parents=True, exist_ok=True)
         self.drz_target_dir.mkdir(parents=True, exist_ok=True)
 
     def make_all_copies(self):
-        """ Create all relevant file copies"""
+        """Create all relevant file copies"""
         self.make_target_copies()
         self.make_driz_source()
-        
 
     def make_target_copies(self):
-        """ Make target file copies"""
+        """Make target file copies"""
         for img in self.images:
             img.make_target_copy(self.destination_dir)
-        
 
     def make_driz_source(self):
-        """ Make source file copies since drizzle changes the source files it's run on"""
+        """Make source file copies since drizzle changes the source files it's run on"""
         self.working_source = []
         for image in self.images:
             image.make_working_copy(self.drz_source_dir)
             self.working_source.append(image.working_copy)
 
     def drizzle(self, individual=False):
-        """ Run the drizzling process"""
+        """Run the drizzling process"""
         self.drizzled_files = []
         if individual:
             for image in self.working_source:
@@ -192,7 +211,8 @@ class ImageSet:
                         adriz(
                             input=[image],
                             output=str(
-                                self.drz_target_dir / os.path.basename(image).split(".")[0]
+                                self.drz_target_dir
+                                / os.path.basename(image).split(".")[0]
                             ),
                             **self.drz_config
                         )
@@ -219,44 +239,46 @@ class ImageSet:
             self.drizzled_files = self.drz_target_dir.glob("*drz*.fits")
 
     def apply_manual_shifts(self):
-        """ Take a manual shift and apply it to either all images collectively or to each individual frame
-        """
+        """Take a manual shift and apply it to either all images collectively or to each individual frame"""
         # First parse to understand if we have a collective change or not
         if self.manual_shifts is None:
             if self.verbose:
-                print('No manual shifts specified')
+                print("No manual shifts specified")
             pass
 
         if isinstance(self.manual_shifts, dict):
             for image in self.images:
                 if image in self.manual_shifts.keys():
                     # Add the shift to the working copy
-                    image.shift_working_copy_wcs(self.manual_shifts[image]['dra'], self.manual_shifts[image]['ddec'])
+                    image.shift_working_copy_wcs(
+                        self.manual_shifts[image]["dra"],
+                        self.manual_shifts[image]["ddec"],
+                    )
                     # also add it to the target
-                    image.backpropagate_wcs(self.manual_shifts[image]['dra'], self.manual_shifts[image]['ddec'])
+                    image.backpropagate_wcs(
+                        self.manual_shifts[image]["dra"],
+                        self.manual_shifts[image]["ddec"],
+                    )
         elif isinstance(self.manual_shifts, tuple):
             for image in self.images:
-                image.shift_working_copy_wcs(self.manual_shifts[0], self.manual_shifts[1])
+                image.shift_working_copy_wcs(
+                    self.manual_shifts[0], self.manual_shifts[1]
+                )
                 image.backpropagate_wcs(self.manual_shifts[0], self.manual_shifts[1])
-            
 
     def backpropagate_wcs_shift(self, dra, ddec):
-        """ propagate the found wcs offset to all images
-        """
+        """propagate the found wcs offset to all images"""
         for image in self.images:
             image.backpropagate_wcs(dra, ddec)
 
     def clean_temp_directories(self):
-        """ Remove drizzling directories"""
+        """Remove drizzling directories"""
         shutil.rmtree(self.drz_source_dir)
         shutil.rmtree(self.drz_target_dir)
-    
+
     def __repr__(self) -> str:
         msg = "< {} ImageSet instance containing: ".format(self.filtername)
         for img in self.images:
             msg += img + ", "
         msg += ">"
         return msg
-
-
-
