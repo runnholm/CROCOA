@@ -17,20 +17,24 @@ def make_copy(source_files, destination_dir, target_name=None, verbose=False):
         print("Copying", source_files)
         print("Destination", destination_dir)
 
+
+    if not isinstance(destination_dir, Path):
+        destination_dir = Path(destination_dir)
+
     filelist = []
     for fn in source_files:
         if target_name is None:
             name = os.path.basename(fn)
         else:
             name = target_name
-        if not os.path.isdir(destination_dir):
-            Path(str(destination_dir)).mkdir(parents=True, exist_ok=True)
-        if isinstance(destination_dir, Path):
-            new_name = destination_dir / name
-        else:
-            new_name = destination_dir + name
-        print("copied to")
-        print(new_name)
+
+        if not destination_dir.is_dir():
+            destination_dir.mkdir(parents=True, exist_ok=True)
+
+        new_name = destination_dir / name
+        if verbose:
+            print("copied to")
+            print(new_name)
         shutil.copyfile(fn, new_name)
         filelist.append(new_name)
 
