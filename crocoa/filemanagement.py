@@ -330,7 +330,7 @@ def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp'):
     working_source = []
     for image in images:
         image.make_working_copy(temp_dir)
-        working_source.append(image.working_copy)
+        working_source.append(str(image.working_copy))
     
     # Drizzle them
 
