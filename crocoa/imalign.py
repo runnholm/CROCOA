@@ -127,7 +127,7 @@ def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matc
         print(source_images)
         print('')
 
-    for i, image in source_images:
+    for i, image in enumerate(source_images):
         if i == reference_set_index:
             pass
         else:
