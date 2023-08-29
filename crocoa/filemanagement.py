@@ -300,7 +300,7 @@ class ImageSet:
         return msg
 
 
-def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp'):
+def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp', cleanup=True):
     """ Function that produces some convenient comparison files and plots
     Parameters
     ----------
@@ -312,6 +312,9 @@ def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp'):
         drizzle configuration keywords
     temp_dir : str or Path, optional
         temporary directory where intermediate drizzle files are put
+    cleanup : bool, optional, default True
+        whether to clean drizzle products  from the target_dir. 
+        WARNING: this will clear other fits files as well.
     """
     if isinstance(target_dir, Path):
         pass
@@ -352,11 +355,12 @@ def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp'):
         )
     
     # Get rid of non_sci files
-    for file in target_dir.glob('*.fits'):
-        if file in sci_files:
-            pass
-        else:
-            os.remove(file)
+    if cleanup:
+        for file in target_dir.glob('*.fits'):
+            if file in sci_files:
+                pass
+            else:
+                os.remove(file)
     
     # Lets make some difference images
     reference_image = sci_files.pop(0)
@@ -374,5 +378,6 @@ def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp'):
     
     plt.tight_layout()
     plt.savefig('difference_images.pdf')
-        
-    shutil.rmtree(temp_dir)
+    
+    if cleanup:
+        shutil.rmtree(temp_dir)
