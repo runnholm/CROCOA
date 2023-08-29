@@ -370,7 +370,7 @@ def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp'):
         data = fits.getdata(sci_files[i])
         diff = (refdata / np.max(refdata)) - (data/np.max(data))
 
-        axes[label].imshow(diff, colormap='bwr', vmin=-1, vmax=1)
+        axes[label].imshow(diff, cmap='bwr', vmin=-1, vmax=1)
     
     plt.tight_layout()
     plt.savefig('difference_images.pdf')
