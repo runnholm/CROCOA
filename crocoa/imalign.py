@@ -118,7 +118,8 @@ def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matc
         if perform_manual_shifts:
             image_set.apply_manual_shifts()
         image_set.drizzle()
-        source_images.append(image_set.drizzled_files)
+        # Take the zero index because it should be a list with a single file
+        source_images.append(image_set.drizzled_files[0])
     
     reference_image = source_images[reference_set_index]
     if image_sets[0].verbose:
