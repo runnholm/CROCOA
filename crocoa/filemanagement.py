@@ -24,7 +24,7 @@ def make_copy(source_files, destination_dir, target_name=None, verbose=False):
         else:
             name = target_name
         if not os.path.isdir(destination_dir):
-            os.mkdir(destination_dir)
+            Path(str(destination_dir)).mkdir(parents=True, exist_ok=True)
         if isinstance(destination_dir, Path):
             new_name = destination_dir / name
         else:
