@@ -184,6 +184,7 @@ class ImageSet:
         self.drz_source_dir.mkdir(parents=True, exist_ok=True)
         self.drz_target_dir.mkdir(parents=True, exist_ok=True)
 
+
     def make_all_copies(self):
         """Create all relevant file copies"""
         self.make_target_copies()
@@ -230,17 +231,21 @@ class ImageSet:
                     ))[0]
                 )
         else:
+            # if not individual we need subdirectories in the drz_target directory
+            drz_target = self.drz_target_dir / self.filtername
+            drz_target.mkdir(parents=True, exist_ok=True)
+
             if self.verbose:
                 adriz(
                     input=self.working_source,
-                    output=str(self.drz_target_dir / self.filtername),
+                    output=str(drz_target),
                     **self.drz_config
                 )
             else:
                 with suppress_stdout_stderr():
                     adriz(
                         input=self.working_source,
-                        output=str(self.drz_target_dir / self.filtername),
+                        output=str(drz_target),
                         **self.drz_config
                     )
             # get the resulting drizzled file(s)

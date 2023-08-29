@@ -121,6 +121,12 @@ def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matc
         source_images.append(image_set.drizzled_files)
     
     reference_image = source_images[reference_set_index]
+    if image_sets[0].verbose:
+        print('Running multiple filter alignment')
+        print('Using source images')
+        print(source_images)
+        print('')
+
     for i, image in source_images:
         if i == reference_set_index:
             pass
