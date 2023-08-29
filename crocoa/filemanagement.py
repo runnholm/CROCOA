@@ -5,7 +5,10 @@ from astropy.io import fits
 from pathlib import Path
 from drizzlepac.astrodrizzle import AstroDrizzle as adriz
 from crocoa.utilities import suppress_stdout_stderr
+import matplotlib.pyplot as plt
 import glob
+import string
+import numpy as np
 
 
 def make_copy(source_files, destination_dir, target_name=None, verbose=False):
@@ -295,3 +298,71 @@ class ImageSet:
             msg += img + ", "
         msg += ">"
         return msg
+
+
+def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp'):
+    """ Function that produces some convenient comparison files and plots
+    """
+    if isinstance(target_dir, Path):
+        pass
+    else:
+        target_dir = Path(target_dir)
+
+    if isinstance(temp_dir, Path):
+        pass
+    else:
+        temp_dir = Path(temp_dir)
+
+    target_dir.mkdir(parents=True, exist_ok=True)
+    temp_dir.mkdir(parents=True, exist_ok=True)
+
+    images = [Image(file) for file in aligned_files]
+    working_source = []
+    for image in images:
+        image.make_working_copy(temp_dir)
+        working_source.append(image.working_copy)
+    
+    # Drizzle them
+
+    sci_files = []
+    for image in working_source:
+        with suppress_stdout_stderr():
+            adriz(
+                input=[image],
+                output=str(
+                    target_dir
+                    / os.path.basename(image).split(".")[0]
+                ),
+                **drz_config
+            )
+        sci_files.append(
+            list(target_dir.glob(
+                os.path.basename(image).split(".")[0] + "*sci*.fits"
+            ))[0]
+        )
+    
+    # Get rid of non_sci files
+    for file in target_dir.glob('*.fits'):
+        if file in sci_files:
+            pass
+        else:
+            os.remove(file)
+    
+    # Lets make some difference images
+    reference_image = sci_files.pop(0)
+    refdata = fits.getdata(reference_image)
+
+    n_figs = len(sci_files)
+    axis_labels = [[ch] for ch in string.ascii_lowercase[n_figs]]
+    fig, axes = plt.subplot_mosaic(axis_labels)
+
+    for i,label in enumerate(string.ascii_lowercase[n_figs]):
+        data = fits.getdata(sci_files[i])
+        diff = (refdata / np.max(refdata)) - (data/np.max(data))
+
+        axes[label].imshow(diff, colormap='bwr', vmin=-1, vmax=1)
+    
+    plt.tight_layout()
+    plt.savefig('difference_images.pdf')
+        
+    shutil.rmtree(temp_dir)
