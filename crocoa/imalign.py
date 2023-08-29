@@ -131,7 +131,7 @@ def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matc
         if i == reference_set_index:
             pass
         else:
-            dra, ddec = match_images(reference_image, image, **matching_config)
+            dra, ddec = match_images(str(reference_image), str(image), **matching_config)
             image_sets[i].backpropagate_wcs_shift(dra, ddec)
     if cleanup:
         image_set.clean_temp_directories()
