@@ -381,7 +381,7 @@ def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp', c
         axes[label].imshow(diff, cmap='bwr', vmin=-1, vmax=1)
     
     plt.tight_layout()
-    plt.savefig('difference_images.pdf')
+    plt.savefig(target_dir / 'difference_images.pdf')
     
     if cleanup:
         shutil.rmtree(temp_dir)
