@@ -9,3 +9,6 @@
 
 ## ImageSet 
 ::: crocoa.filemanagement.ImageSet
+
+## Diagnostics
+::: crocoa.filemanagement.make_diagnostics

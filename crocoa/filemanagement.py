@@ -302,6 +302,16 @@ class ImageSet:
 
 def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp'):
     """ Function that produces some convenient comparison files and plots
+    Parameters
+    ----------
+    aligned_files : list
+        list of the aligned files to evaluate
+    target_dir : str or Path
+        where the diagnostics should be saved
+    drz_config : dict
+        drizzle configuration keywords
+    temp_dir : str or Path, optional
+        temporary directory where intermediate drizzle files are put
     """
     if isinstance(target_dir, Path):
         pass
