@@ -371,14 +371,18 @@ def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp', c
     refdata = fits.getdata(reference_image)
 
     n_figs = len(sci_files)
-    axis_labels = [[ch] for ch in string.ascii_lowercase[n_figs]]
-    fig, axes = plt.subplot_mosaic(axis_labels)
-
-    for i,label in enumerate(string.ascii_lowercase[n_figs]):
+    print(sci_files)
+    print(n_figs)
+    axis_labels = string.ascii_lowercase[n_figs]
+    print(axis_labels)
+    fig, axes = plt.subplot_mosaic(axis_labels, figsize=(4*n_figs, 4))
+    
+    for i,label in enumerate(axis_labels):
         data = fits.getdata(sci_files[i])
         diff = (refdata / np.max(refdata)) - (data/np.max(data))
 
         axes[label].imshow(diff, cmap='bwr', vmin=-1, vmax=1)
+        axes[label].set_title(sci_files[i])
     
     plt.tight_layout()
     plt.savefig(target_dir / 'difference_images.pdf')
