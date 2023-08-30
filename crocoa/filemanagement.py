@@ -371,10 +371,7 @@ def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp', c
     refdata = fits.getdata(reference_image)
 
     n_figs = len(sci_files)
-    print(sci_files)
-    print(n_figs)
-    axis_labels = string.ascii_lowercase[n_figs]
-    print(axis_labels)
+    axis_labels = string.ascii_lowercase[:n_figs]
     fig, axes = plt.subplot_mosaic(axis_labels, figsize=(4*n_figs, 4))
     
     for i,label in enumerate(axis_labels):
