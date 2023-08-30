@@ -304,7 +304,7 @@ class ImageSet:
         return msg
 
 
-def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp', cleanup=True):
+def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp', cleanup=True, combine=False, filter=None):
     """ Function that produces some convenient comparison files and plots
     Parameters
     ----------
@@ -319,6 +319,9 @@ def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp', c
     cleanup : bool, optional, default True
         whether to clean drizzle products  from the target_dir. 
         WARNING: this will clear other fits files as well.
+    combine : bool, optional, default False
+    filter: str, optional
+        required if combine is True
     """
     if isinstance(target_dir, Path):
         pass
@@ -342,22 +345,33 @@ def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp', c
     # Drizzle them
 
     sci_files = []
-    for image in working_source:
+    if combine:
+        if filter is None:
+            raise ValueError('filter must be set')
         with suppress_stdout_stderr():
             adriz(
-                input=[image],
-                output=str(
-                    target_dir
-                    / os.path.basename(image).split(".")[0]
-                ),
+                input=working_source,
+                output=str(target_dir / filter),
                 **drz_config
             )
-        sci_files.append(
-            list(target_dir.glob(
-                os.path.basename(image).split(".")[0] + "*sci*.fits"
-            ))[0]
-        )
-    
+        sci_files = list(target_dir.glob("*sci*.fits"))
+    else:
+        for image in working_source:
+            with suppress_stdout_stderr():
+                adriz(
+                    input=[image],
+                    output=str(
+                        target_dir
+                        / os.path.basename(image).split(".")[0]
+                    ),
+                    **drz_config
+                )
+            sci_files.append(
+                list(target_dir.glob(
+                    os.path.basename(image).split(".")[0] + "*sci*.fits"
+                ))[0]
+            )
+        
     # Get rid of non_sci files
     if cleanup:
         for file in target_dir.glob('*.fits'):
@@ -367,22 +381,23 @@ def make_diagnostics(aligned_files, target_dir, drz_config, temp_dir='./temp', c
                 os.remove(file)
     
     # Lets make some difference images
-    reference_image = sci_files.pop(0)
-    refdata = fits.getdata(reference_image)
+    if len(sci_files)>1:
+        reference_image = sci_files.pop(0)
+        refdata = fits.getdata(reference_image)
 
-    n_figs = len(sci_files)
-    axis_labels = string.ascii_lowercase[:n_figs]
-    fig, axes = plt.subplot_mosaic(axis_labels, figsize=(4*n_figs, 4))
-    
-    for i,label in enumerate(axis_labels):
-        data = fits.getdata(sci_files[i])
-        diff = (refdata / np.max(refdata)) - (data/np.max(data))
+        n_figs = len(sci_files)
+        axis_labels = string.ascii_lowercase[:n_figs]
+        fig, axes = plt.subplot_mosaic(axis_labels, figsize=(4*n_figs, 4))
+        
+        for i,label in enumerate(axis_labels):
+            data = fits.getdata(sci_files[i])
+            diff = (refdata / np.max(refdata)) - (data/np.max(data))
 
-        axes[label].imshow(diff, cmap='bwr', vmin=-1, vmax=1)
-        axes[label].set_title(sci_files[i])
-    
-    plt.tight_layout()
-    plt.savefig(target_dir / 'difference_images.pdf')
+            axes[label].imshow(diff, cmap='bwr', vmin=-1, vmax=1)
+            axes[label].set_title(sci_files[i])
+        
+        plt.tight_layout()
+        plt.savefig(target_dir / 'difference_images.pdf')
     
     if cleanup:
         shutil.rmtree(temp_dir)
