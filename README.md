@@ -1,6 +1,9 @@
 # CROCOA
 <b>CRoss COrrelation Alignment tool. </b>
 
+[![DOI](https://zenodo.org/badge/366738844.svg)](https://zenodo.org/doi/10.5281/zenodo.10963967)
+
+
 Software package for using 2D crosscorrelation to align astronomical images.
 
 
