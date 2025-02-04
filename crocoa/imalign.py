@@ -2,167 +2,17 @@ import numpy as np
 import pandas as pd
 import glob
 import os
-from contextlib import contextmanager, redirect_stderr, redirect_stdout
 from drizzlepac.astrodrizzle import AstroDrizzle as adriz
 from crocoa import filemanagement as fm
+from crocoa.utilities import suppress_stdout_stderr
 from astropy.io import fits
 from scipy.signal import correlate2d
 from skimage.registration import phase_cross_correlation
 from datetime import datetime
 
-def align(
-    source_images,
-    destination_dir,
-    run_drizzle=True,
-    drizzle_config=None,
-    drizzle_groups=None,
-    temp_dir="./temp",
-    reference_image=None,
-    cleanup=True,
-    normalization="white",
-    hlet=False,
-    manual_shift=None,
-    mask_method="zeros",
-    verbose=False,
-):
-    """Function for aligning two image sets
-    Parameters
-    ----------
-    source_images : list of str
-        List or array containing the images that are to be aligned
-    destination_dir : str
-        directory in which to put matched files
-    run_drizzle : bool
-        whether or not to drizzle the frames before comparing. If false the source images are assumed to be drizzled
-    drizzle_config : dict
-        dictionary with astrodrizzle configuration settings
-    drizzle_groups : list of lists
-        list containing the groupings of which frames that should be drizzled together.
-        If `None`each frame is drizzled separately.
-    temp_dir : str
-        Directory where intermediate results are stored
-    reference_image : str or None
-        sets the reference image for the correlation (full path of the image)
-    cleanup : bool, default = True
-        whether or not to remove the temp_dir
-    normalization : str
-        Parameter passed to the image_normalization function.
-    mask_method : str
-        NaN treatment in drizzled frames, 'zero' (default) or 'skimage'.
-    hlet : bool
-        whether to store the new coord system as an hlet in the fits. Not implemented
-    verbose : bool
-        whether to show the output of astrodrizzle
-
-    """
-    # Step 1: make drizzle copies
-    # Create working dir
-    if not os.path.isdir(temp_dir):
-        os.mkdir(temp_dir)
-    else:
-        # here we want to deal with an already existing temp directory which
-        # can screw us over
-        temp_dir = temp_dir + datetime.now().strftime("%m%d%Y_%H%M%S")
-        os.mkdir(temp_dir)
-        if verbose:
-            print('Warning: Previous temp-directory found. Renaming temp to: ' + temp_dir)
-
-
-
-    driz_source_dir = temp_dir + "/raw_images/"
-    driz_destination_dir = temp_dir + "/drizzled_images/"
-    if not os.path.isdir(driz_destination_dir):
-        os.mkdir(driz_destination_dir)
-    driz_source_files = fm.make_copy(source_images, driz_source_dir, verbose=verbose)
-
-    if manual_shift is not None:
-        assert type(manual_shift) is dict
-        manual_wcs_shift(driz_source_files, manual_shift)
-
-    # Step 2: drizzle
-    if run_drizzle:
-        # TODO: generalize this to be able to take groups of files as well
-        for fd_frame in driz_source_files:
-            if verbose:
-                adriz(
-                    input=[fd_frame],
-                    output=driz_destination_dir
-                    + os.path.basename(fd_frame).split(".")[0],
-                    **drizzle_config
-                )
-            else:
-                with suppress_stdout_stderr():
-                    adriz(
-                        input=[fd_frame],
-                        output=driz_destination_dir
-                        + os.path.basename(fd_frame).split(".")[0],
-                        **drizzle_config
-                    )
-
-        # Step 4: Copy files to destination dir
-        if not os.path.isdir(destination_dir):
-            os.mkdir(destination_dir)
-
-    destination_files = fm.make_copy(
-        source_images, destination_dir + "/", verbose=verbose
-    )
-
-    # Step 3: Cross Correlate
-    if run_drizzle:
-        corr_source_files = glob.glob(driz_destination_dir + "*sci*")
-    else:
-        corr_source_files = source_images
-    if reference_image is None:
-        reference_image = corr_source_files[0]
-        corr_source_files = corr_source_files[1:]
-    else:
-        if run_drizzle:
-            ref = glob.glob(driz_destination_dir + os.path.basename(reference_image))
-            if ref:
-                reference_image = ref[0]
-            else:
-                print("Cannot find reference image. Falling back to using first image")
-                reference_image = corr_source_files[0]
-                corr_source_files = corr_source_files[1:]
-        else:
-            ref = reference_image
-
-    for frame in corr_source_files:
-        destination_file = glob.glob(
-            destination_dir + "/" + os.path.basename(frame).split("_")[0] + "*"
-        )
-        match_images(
-            reference_image,
-            frame,
-            destination_file,
-            normalization=normalization,
-            mask_method=mask_method,
-        )
-        if manual_shift is not None:
-            print()
-            print("manual shift")
-            manual_wcs_shift(destination_file, manual_shift)
-            print()
-
-    # Add the manual shift to the reference file
-    if manual_shift is not None:
-        reference_destination = destination_file = glob.glob(
-            destination_dir
-            + "/"
-            + os.path.basename(reference_image).split("_")[0]
-            + "*"
-        )
-        manual_wcs_shift(reference_destination, manual_shift)
-
-    # Step 5: Cleanup
-    if cleanup:
-        fm.cleanup(temp_dir)
-
-
 def match_images(
     reference_fits,
     image_fits,
-    output_fits,
     verbose=True,
     normalization="white",
     clip=None,
@@ -177,8 +27,6 @@ def match_images(
         directory of the reference image
     image_fits : str
         directory of the image that should be matched
-    output_fits : list
-        path to original flc files where wcs should be updated
     """
     if verbose:
         print("ref", reference_fits)
@@ -245,11 +93,83 @@ def match_images(
         print("Delta RA: ", dra)
         print("Delta DEC: ", ddec)
 
-    # 4. Write new coordinates to output
-    for outfile in output_fits:
-        if verbose:
-            print("writing to: ", outfile)
-        fm.write_wcs_to_fits(outfile, dra, ddec)
+    return dra, ddec
+
+
+def align_multiple_filters(image_sets, reference_set_index=0, cleanup=True, matching_config={}, perform_manual_shifts=True):
+    """ Function for aligning image sets between multiple filters 
+    Parameters
+    ----------
+    image_sets : list or iterable
+        list of ImageSet instances
+    reference_set_index : int
+        index of the ImageSet in the image_set list that is to be used as reference for cross correlation
+    cleanup : bool
+        whether to cleanup the temporary folders and intermediate drizzling results
+    matching_config : dict
+        keyword arguments that are passed directly to match images
+    perform_manual_shifts : bool
+        whether or not to apply a manual shift. This manual shift should be given to the ImageSet 
+        during construction
+    """
+    source_images = []
+    for image_set in image_sets:
+        image_set.make_all_copies()
+        if perform_manual_shifts:
+            image_set.apply_manual_shifts()
+        image_set.drizzle()
+        # Take the zero index because it should be a list with a single file
+        source_images.append(image_set.drizzled_files[0])
+    
+    reference_image = source_images[reference_set_index]
+    if image_sets[0].verbose:
+        print('Running multiple filter alignment')
+        print('Using source images')
+        print(source_images)
+        print('')
+
+    for i, image in enumerate(source_images):
+        if i == reference_set_index:
+            pass
+        else:
+            dra, ddec = match_images(str(reference_image), str(image), **matching_config)
+            image_sets[i].backpropagate_wcs_shift(dra, ddec)
+    if cleanup:
+        image_set.clean_temp_directories()
+
+def align_single_filter(image_set, reference_image_index=0, cleanup=True, matching_config={}, perform_manual_shifts=True):
+    """ Function for aligning images in a single set
+    Parameters
+    ----------
+    image_set : ImageSet instance
+        an ImageSet instance with the relevant files to be aligned
+    reference_image_index : int
+        index of the image in the image_set list that is to be used as reference for cross correlation
+    cleanup : bool
+        whether to cleanup the temporary folders and intermediate drizzling results
+    matching_config : dict
+        keyword arguments that are passed directly to match images
+    perform_manual_shifts : bool
+        whether or not to apply a manual shift. This manual shift should be given to the ImageSet 
+        during construction
+    """
+    image_set.make_all_copies()
+    if perform_manual_shifts:
+        image_set.apply_manual_shifts()
+    image_set.drizzle(individual=True)
+    source_images = image_set.drizzled_files
+    reference_image = source_images[reference_image_index]
+    for i, image in enumerate(source_images):
+        if i == 0:
+            pass
+        else:
+            dra, ddec = match_images(reference_image, image, **matching_config)
+            image_set.images[i].backpropagate_wcs(dra, ddec)
+    
+    if cleanup:
+        image_set.clean_temp_directories()
+
+
 
 
 def manual_wcs_shift(image_list, shift_dict):
@@ -367,9 +287,3 @@ def get_image_coords(header):
     return header["CRVAL1"], header["CRVAL2"]
 
 
-@contextmanager
-def suppress_stdout_stderr():
-    """A context manager that redirects stdout and stderr to devnull"""
-    with open(os.devnull, "w") as fnull:
-        with redirect_stderr(fnull) as err, redirect_stdout(fnull) as out:
-            yield (err, out)
